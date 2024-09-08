@@ -1,0 +1,97 @@
+<!-- Button to toggle sidebar (visible only on small screens) -->
+<button (click)="toggleSidebar()" aria-controls="default-sidebar" type="button"
+    class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+    <span class="sr-only">Open sidebar</span>
+    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" fill-rule="evenodd"
+            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+        </path>
+    </svg>
+</button>
+
+<!-- Sidebar (light theme) -->
+<aside id="default-sidebar" [ngClass]="{'-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen}"
+    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-white shadow-md">
+    <div class="h-full flex flex-col justify-between px-4 py-6">
+        <!-- Sidebar navigation -->
+        <div>
+            <!-- Gixat Logo -->
+            <div class="mb-6">
+                <img src="assets/icons/gixat-logo.png" alt="Gixat Logo" class="h-12 mx-auto">
+            </div>
+
+            <!-- Navigation links -->
+            <ul class="space-y-4 font-medium text-gray-700">
+                <li>
+                    <a routerLink="/dashboard"
+                        class="flex items-center p-3 text-base font-semibold rounded-lg hover:bg-gray-200">
+                        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 0a12 12 0 1012 12A12.013 12.013 0 0012 0zM2 12a10 10 0 1110 10A10.011 10.011 0 012 12z" />
+                            <path
+                                d="M16.975 11H10V4.025a1 1 0 00-1.066-.998 8.5 8.5 0 109.039 9.039.999.999 0 00-1-1.066h.002Z" />
+                        </svg>
+                        <span class="ml-3">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/dashboard/clients"
+                        class="flex items-center p-3 text-base font-semibold rounded-lg hover:bg-gray-200">
+                        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 2A10 10 0 112 12 10.011 10.011 0 0112 2m0-2a12 12 0 1012 12A12.013 12.013 0 0012 0z" />
+                            <path d="M16.06 12.94l-1.41-1.42L11 15.17l-1.41-1.42-1.41 1.42L11 17.59l5.06-5.06z" />
+                        </svg>
+                        <span class="ml-3">Clients</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/dashboard/settings"
+                        class="flex items-center p-3 text-base font-semibold rounded-lg hover:bg-gray-200">
+                        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M12 2A10 10 0 112 12 10.011 10.011 0 0112 2m0-2a12 12 0 1012 12A12.013 12.013 0 0012 0z" />
+                            <path d="M16.06 12.94l-1.41-1.42L11 15.17l-1.41-1.42-1.41 1.42L11 17.59l5.06-5.06z" />
+                        </svg>
+                        <span class="ml-3">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/inbox"
+                        class="flex items-center p-3 text-base font-semibold rounded-lg hover:bg-gray-200">
+                        <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M19.1 6.36L15 9.66V8a1 1 0 00-1-1H6a1 1 0 00-1 1v1.66L.9 6.36A1 1 0 000 7.3v10a1 1 0 001 1h18a1 1 0 001-1v-10a1 1 0 00-.9-.94z" />
+                        </svg>
+                        <span class="ml-3">Inbox</span>
+                        <span
+                            class="ml-3 inline-flex items-center justify-center px-2 text-xs font-medium text-gray-900 bg-gray-200 rounded-full">3</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sign Out Button -->
+        <div class="border-t border-gray-200 pt-4">
+            <a (click)="logout()"
+                class="flex items-center p-3 text-base font-semibold text-red-600 rounded-lg hover:bg-red-100">
+                <svg class="w-5 h-5 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                    viewBox="0 0 20 20">
+                    <path d="M3 3h7a1 1 0 010 2H4v10h6a1 1 0 110 2H3a1 1 0 01-1-1V4a1 1 0 011-1z" />
+                    <path
+                        d="M17.293 8.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L13 10.586l3.293-3.293z" />
+                </svg>
+                <span class="ml-3">Sign Out</span>
+            </a>
+        </div>
+    </div>
+</aside>
+
+<!-- Main content -->
+<div class="p-4 sm:ml-64">
+    <!-- Main content goes here -->
+</div>

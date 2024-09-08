@@ -1,0 +1,86 @@
+<div class="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-lg space-y-6">
+    <h2 class="text-2xl font-bold text-gray-900">Add New Car for Client</h2>
+
+    <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <!-- Car Make Input -->
+        <div>
+            <label for="make" class="block text-lg font-medium text-gray-700">Make</label>
+            <input id="make" type="text" formControlName="make" placeholder="Enter car make"
+                class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-500" />
+            <div *ngIf="carForm.controls['make'].invalid && carForm.controls['make'].touched" class="text-red-500 mt-2">
+                Make is required.
+            </div>
+        </div>
+
+        <!-- Car Model Input -->
+        <div>
+            <label for="model" class="block text-lg font-medium text-gray-700">Model</label>
+            <input id="model" type="text" formControlName="model" placeholder="Enter car model"
+                class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-500" />
+            <div *ngIf="carForm.controls['model'].invalid && carForm.controls['model'].touched"
+                class="text-red-500 mt-2">
+                Model is required.
+            </div>
+        </div>
+
+        <!-- Car Year Input -->
+        <div>
+            <label for="year" class="block text-lg font-medium text-gray-700">Year</label>
+            <input id="year" type="number" formControlName="year" placeholder="Enter car year"
+                class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-500" />
+            <div *ngIf="carForm.controls['year'].invalid && carForm.controls['year'].touched" class="text-red-500 mt-2">
+                Year is required and must be valid.
+            </div>
+        </div>
+
+        <!-- VIN Input -->
+        <div>
+            <label for="vin" class="block text-lg font-medium text-gray-700">VIN</label>
+            <input id="vin" type="text" formControlName="vin" placeholder="Enter VIN"
+                class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-500" />
+            <div *ngIf="carForm.controls['vin'].invalid && carForm.controls['vin'].touched" class="text-red-500 mt-2">
+                VIN is required.
+            </div>
+        </div>
+
+        <!-- License Plate Input -->
+        <div>
+            <label for="licensePlate" class="block text-lg font-medium text-gray-700">License Plate</label>
+            <input id="licensePlate" type="text" formControlName="licensePlate" placeholder="Enter license plate"
+                class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-500" />
+            <div *ngIf="carForm.controls['licensePlate'].invalid && carForm.controls['licensePlate'].touched"
+                class="text-red-500 mt-2">
+                License plate is required.
+            </div>
+        </div>
+
+        <!-- Barcode Input (If Required) -->
+        <div>
+            <label for="barcode" class="block text-lg font-medium text-gray-700">Barcode</label>
+            <input id="barcode" type="text" formControlName="barcode" placeholder="Enter barcode"
+                class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-500" />
+            <div *ngIf="carForm.controls['barcode'].invalid && carForm.controls['barcode'].touched"
+                class="text-red-500 mt-2">
+                Barcode is required.
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-end">
+            <button type="submit" [disabled]="carForm.invalid"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow disabled:opacity-50 disabled:cursor-not-allowed">
+                Add Car
+            </button>
+        </div>
+    </form>
+
+    <!-- Success Message -->
+    <div *ngIf="submitted && !errorMessage" class="text-green-500 text-center mt-4">
+        Car added successfully!
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="text-red-500 text-center mt-4">
+        {{ errorMessage }}
+    </div>
+</div>
