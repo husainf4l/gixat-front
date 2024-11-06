@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../enviroments/enviroment';
 
 interface AuthResponse {
     access_token: string;
@@ -12,7 +13,7 @@ interface AuthResponse {
     providedIn: 'root'
 })
 export class AuthService {
-    private apiUrl = 'http://localhost:3000/auth';  // Update with your API URL
+    private apiUrl = `${environment.apiUrl}/auth`
     private tokenSubject = new BehaviorSubject<string | null>(null);
     public token$ = this.tokenSubject.asObservable();
 

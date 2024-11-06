@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Client } from '../../../models/client.model';
+import { Client } from '../../services/models/client.model';
 import { ClientService } from '../../services/client.service';
 import { CommonModule, Location } from '@angular/common';
 

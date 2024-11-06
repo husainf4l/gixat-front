@@ -1,9 +1,9 @@
 export interface Client {
     id: number;
     mobile: string;
-    address: string;  // Initialize with an empty string if optional
-    cars: Car[];      // Initialize as an empty array
-    invoices: Invoice[]; // Initialize as an empty array
+    address: string;  
+    cars: Car[];     
+    invoices: Invoice[]; 
 }
 
 export interface Car {

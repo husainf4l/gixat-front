@@ -7,7 +7,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { UserLayoutComponent } from './layout/user-layout/user-layout.component';
 import { SignupComponent } from './signup/signup.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ClientListComponent } from './client/client-list/client-list.component';
 import { ClientAddComponent } from './client/client-add/client-add.component';
 import { ClientDetailComponent } from './client/client-detail/client-detail.component';
@@ -35,7 +34,7 @@ const dashboardRoutes: Routes = [
         component: UserLayoutComponent,
         // canActivate: [AuthGuard],
         children: [
-            { path: '', component: DashboardComponent },  // Ensure 'overview' route exists if used
+            { path: '', component: UsersComponent },  // Ensure 'overview' route exists if used
             { path: 'users', component: UsersComponent },
             { path: 'settings', component: SettingsComponent },
             { path: 'clients', component: ClientListComponent },
