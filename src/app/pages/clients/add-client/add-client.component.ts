@@ -1,44 +1,38 @@
 import { Component } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Client } from '../../../services/models/client.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Client } from '../../../services/models/client.model';
+import { Router, RouterLink } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-add-client',
   standalone: true,
-  imports: [MatDialogModule, MatFormFieldModule, MatInputModule, CommonModule, FormsModule
-  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './add-client.component.html',
   styleUrl: './add-client.component.css'
 })
 export class AddClientComponent {
+
+  constructor(private router:Router){}
+
   client: Client = {
-    id: 0,
-    name: '',
+    companyName: '',
+    taxId: '',
+    firstName: '',
+    lastName: '',
     phone: '',
     email: '',
+    country: '',
+    city: '',
+    streetAddress: '',
     notes: '',
-    vehicle: {
-      id: '',
-      make: '',
-      model: '',
-    }
+    cars: []
   };
 
-  constructor(public dialogRef: MatDialogRef<AddClientComponent>) { }
-
   addClient() {
-    this.dialogRef.close();
+    console.log('Client Data:', this.client); 
+    this.router.navigate(['/app'])
   }
-  closeModal() {
-    this.dialogRef.close();
-
-  }
-
 }

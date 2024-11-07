@@ -1,10 +1,10 @@
 <mat-sidenav-container class="h-screen">
     <mat-sidenav #sidenav mode="side" [(opened)]="isSidebarOpen"
-        style="border-radius: 0; height: 100vh; background-color: #515b69 !important; width: 256px;">
+        style="border-radius: 0;  width: 256px;">
         <app-navbar (menuItemClicked)="toggleSidebar()"></app-navbar>
     </mat-sidenav>
 
-    <mat-sidenav-content class="flex flex-col h-full ">
+    <mat-sidenav-content class="flex flex-col h-full " style="border-radius: 0; background-color: white ;">
         <app-header (toggleSidebarEvent)="toggleSidebar()"></app-header>
         <div class="px-4">
             <router-outlet></router-outlet>

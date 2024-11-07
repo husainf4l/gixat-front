@@ -1,14 +1,16 @@
-export interface Client {
-    id: number;
-    name: string;
-    phone: string;
-    email?: string;
-    notes?: string;
-    vehicle: Vehicle;
-}
+import { Car } from "./car.model";
 
-export interface Vehicle {
-    id: string;
-    make: string;
-    model: string;
-}
+export interface Client {
+    companyName: string;
+    taxId: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    country: string;
+    city: string;
+    streetAddress: string;
+    notes: string;
+    cars:Car[]
+  }
+

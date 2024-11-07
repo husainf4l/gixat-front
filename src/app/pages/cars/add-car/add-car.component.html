@@ -1,0 +1,106 @@
+<section class="flex items-center justify-center">
+    <form autocomplete="off" class="w-full md:w-2/3" (ngSubmit)="addCar()" (keydown.enter)="$event.preventDefault()">
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-lg font-semibold text-gray-900">Add New Car</h2>
+  
+        <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <!-- Make with Autocomplete -->
+          <div class="sm:col-span-3">
+            <label for="make" class="block text-sm font-medium text-gray-900">Make</label>
+            <div class="mt-2">
+              <input
+                type="text"
+                id="make"
+                name="make"
+                [(ngModel)]="car.make.name"
+                (ngModelChange)="filterMakes()"
+                [matAutocomplete]="autoMake"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+              <mat-autocomplete #autoMake="matAutocomplete">
+                <mat-option *ngFor="let make of filteredMakes" [value]="make.name" (onSelectionChange)="onMakeSelected(make)">
+                  {{ make.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+          </div>
+  
+          <!-- Model with Autocomplete -->
+          <div class="sm:col-span-3">
+            <label for="model" class="block text-sm font-medium text-gray-900">Model</label>
+            <div class="mt-2">
+              <input
+                type="text"
+                id="model"
+                name="model"
+                [(ngModel)]="car.model.name"
+                (ngModelChange)="filterModels()"
+                [matAutocomplete]="autoModel"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+              <mat-autocomplete #autoModel="matAutocomplete">
+                <mat-option *ngFor="let model of filteredModels" [value]="model.name">
+                  {{ model.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+          </div>
+  
+          <!-- Year -->
+          <div class="sm:col-span-3">
+            <label for="year" class="block text-sm font-medium text-gray-900">Year</label>
+            <div class="mt-2">
+              <input
+                type="number"
+                id="year"
+                name="year"
+                [(ngModel)]="car.year"
+                placeholder="YYYY"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+            </div>
+          </div>
+          
+  
+          <!-- Transmission Type -->
+          <div class="sm:col-span-3">
+            <label for="transmissionType" class="block text-sm font-medium text-gray-900">Transmission Type</label>
+            <div class="mt-2">
+              <select
+                id="transmissionType"
+                name="transmissionType"
+                [(ngModel)]="car.transmissionType"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option>Automatic</option>
+                <option>Manual</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="col-span-full">
+            <label for="notes" class="block text-sm font-medium text-gray-900">Notes</label>
+            <div class="mt-2">
+              <textarea
+                id="notes"
+                name="notes"
+                [(ngModel)]="car.notes"
+                rows="4"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              ></textarea>
+            </div>
+            <p class="mt-2 text-sm text-gray-500">Additional details about the car.</p>
+          </div>
+        </div>       
+     </div>
+  
+      <div class="mt-6 flex items-center justify-end gap-x-4">
+        <button type="button" class="text-sm font-semibold text-gray-600" (click)="cancel()">Cancel</button>
+        <button type="submit" class="px-4 py-2 rounded-md bg-indigo-600 text-white font-medium shadow hover:bg-indigo-700 focus:outline-none">Save</button>
+      </div>
+    </form>
+  </section>
+  

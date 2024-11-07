@@ -33,14 +33,8 @@ export class ClientListComponent {
     console.log(this.searchQuery);
     // Implement search functionality here
   }
-  constructor(private dialog: MatDialog) { }
+  constructor() { }
 
-  openAddClientModal() {
-    this.dialog.open(AddClientComponent, {
-      width: '400px',
-      disableClose: true, // Prevents closing on outside click
-    });
-  }
 
 
   editClient() {

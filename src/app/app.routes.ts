@@ -10,6 +10,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ClientsComponent } from './pages/clients/clients.component';
 import { AddClientComponent } from './pages/clients/add-client/add-client.component';
 import { ClientListComponent } from './pages/clients/client-list/client-list.component';
+import { CarsComponent } from './pages/cars/cars.component';
+import { AddCarComponent } from './pages/cars/add-car/add-car.component';
 
 const mainRoutes: Routes = [
     {
@@ -31,10 +33,10 @@ const dashboardRoutes: Routes = [
             { path: '', component: DashboardComponent },
             { path: 'clients', component: ClientsComponent },
             { path: 'clients/list', component: ClientListComponent },
-            { path: 'clients/newclient', component: AddClientComponent },
-
-
-
+            { path: 'clients/add-client', component: AddClientComponent },
+            { path: 'cars', component: CarsComponent },
+            { path: 'cars/list', component: ClientListComponent },
+            { path: 'cars/add-car', component: AddCarComponent },
 
         ]
     },
