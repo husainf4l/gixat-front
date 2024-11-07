@@ -1,0 +1,70 @@
+<section class="p-6 max-w-lg w-full mx-auto bg-white rounded-lg shadow-lg overflow-auto" style="max-height: 90vh;">
+    <p class="text-2xl font-semibold text-gray-800 mb-6">Add New Client</p>
+    <form #clientForm="ngForm" class="space-y-5">
+
+        <!-- Client Name -->
+        <div>
+            <label for="clientName" class="block text-sm font-medium text-gray-600">Client Name</label>
+            <input type="text" id="clientName" name="name"
+                class="mt-2 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                placeholder="Enter client name" [(ngModel)]="client.name" required #name="ngModel" />
+            <div *ngIf="name.invalid && name.touched" class="text-red-500 text-xs mt-1">Name is required</div>
+        </div>
+
+        <!-- Phone Number -->
+        <div>
+            <label for="phone" class="block text-sm font-medium text-gray-600">Phone Number</label>
+            <input type="tel" id="phone" name="phone"
+                class="mt-2 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                placeholder="Enter phone number" [(ngModel)]="client.phone" required #phone="ngModel" />
+            <div *ngIf="phone.invalid && phone.touched" class="text-red-500 text-xs mt-1">Phone number is required</div>
+        </div>
+
+        <!-- Email (optional) -->
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-600">Email (optional)</label>
+            <input type="email" id="email" name="email"
+                class="mt-2 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                placeholder="Enter email address" [(ngModel)]="client.email" />
+        </div>
+
+        <!-- Notes (optional) -->
+        <div>
+            <label for="notes" class="block text-sm font-medium text-gray-600">Notes (optional)</label>
+            <textarea id="notes" name="notes"
+                class="mt-2 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                placeholder="Enter additional notes" [(ngModel)]="client.notes"></textarea>
+        </div>
+
+        <!-- Vehicle Information Section -->
+        <h3 class="text-lg font-semibold text-gray-700 mt-8">Vehicle Information</h3>
+
+        <div>
+            <label for="vehicleMake" class="block text-sm font-medium text-gray-600">Vehicle Make</label>
+            <input type="text" id="vehicleMake" name="make"
+                class="mt-2 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                placeholder="Enter vehicle make" [(ngModel)]="client.vehicle.make" required #make="ngModel" />
+            <div *ngIf="make.invalid && make.touched" class="text-red-500 text-xs mt-1">Vehicle make is required</div>
+        </div>
+
+        <div>
+            <label for="vehicleModel" class="block text-sm font-medium text-gray-600">Vehicle Model</label>
+            <input type="text" id="vehicleModel" name="model"
+                class="mt-2 block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                placeholder="Enter vehicle model" [(ngModel)]="client.vehicle.model" required #model="ngModel" />
+            <div *ngIf="model.invalid && model.touched" class="text-red-500 text-xs mt-1">Vehicle model is required
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex justify-end space-x-3">
+            <button class="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 transition"
+                (click)="closeModal()">Cancel</button>
+            <button
+                class="px-6 py-3 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                [disabled]="clientForm.invalid" (click)="addClient()">
+                Save
+            </button>
+        </div>
+    </form>
+</section>

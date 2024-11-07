@@ -1,22 +1,14 @@
 export interface Client {
     id: number;
-    mobile: string;
-    address: string;  
-    cars: Car[];     
-    invoices: Invoice[]; 
+    name: string;
+    phone: string;
+    email?: string;
+    notes?: string;
+    vehicle: Vehicle;
 }
 
-export interface Car {
+export interface Vehicle {
+    id: string;
     make: string;
     model: string;
-    year: number;
-    vin: string;
-    licensePlate: string;
-}
-
-export interface Invoice {
-    amount: number;
-    status: string;
-    issuedAt: string;
-    dueDate: string;
 }

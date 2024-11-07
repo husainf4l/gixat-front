@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { UserNavComponent } from "../../navbar/user-nav/user-nav.component";
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HeaderComponent } from './header/header.component';
 
 @Component({
   selector: 'app-user-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, UserNavComponent],
+  imports: [RouterOutlet, RouterLink, NavbarComponent, HeaderComponent, MatSidenavModule],
   templateUrl: './user-layout.component.html',
   styleUrl: './user-layout.component.css'
 })
 export class UserLayoutComponent {
-  constructor(private authService: AuthService, private router: Router) { }
+  isSidebarOpen = false;
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['']); // Redirect to login page after logout
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
+
 }

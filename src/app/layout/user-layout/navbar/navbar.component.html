@@ -1,0 +1,50 @@
+<nav class="flex flex-col p-4 space-y-3 bg-gray-800 h-full text-gray-300">
+    <div class="flex items-center justify-center mb-4">
+        <img src="assets/icons/gixat-logow.png" alt="Logo" class="w-24 h-auto"><span class="text-white p-2">
+        </span>
+    </div>
+    <a routerLink="/app" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">dashboard</span> Dashboard
+    </a>
+    <a routerLink="/app/clients" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">leaderboard</span> Clients
+    </a>
+    <a routerLink="/orders" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">storefront</span> Orders
+    </a>
+    <a routerLink="/points/users" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">redeem</span> points
+    </a>
+    <a routerLink="/points" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">monetization_on</span> Points Management
+    </a>
+    <a routerLink="/rewards" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">redeem</span> Rewards
+    </a>
+    <a routerLink="/engagement" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">analytics</span> Engagement Tracking
+    </a>
+    <a routerLink="/reports" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">bar_chart</span> Reports & Analytics
+    </a>
+    <a routerLink="/profile" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">person</span> Profile
+    </a>
+    <a routerLink="/settings" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">settings</span> Settings
+    </a>
+    <a routerLink="/settings" (click)="logout()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">logout</span> logout
+    </a>
+</nav>

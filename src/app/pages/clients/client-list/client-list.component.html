@@ -1,0 +1,72 @@
+<!-- client-list.component.html -->
+<div class=" p-3 sm:p-5 antialiased">
+    <div class="mx-auto max-w-screen  ">
+        <!-- Header with Search and Actions -->
+        <div class="bg-white shadow-md sm:rounded-lg overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 p-4">
+                <div class="w-full md:w-1/2">
+                    <form (submit)="onSearch()">
+                        <div class="relative w-full">
+                            <input type="text" [(ngModel)]="searchQuery" placeholder="Search Clients"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full pl-10 p-2 focus:ring-primary-500" />
+                            <button type="submit" class="hidden"></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex space-x-3">
+                    <button (click)="openAddClientModal()"
+                        class="text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2">
+                        Add Client
+                    </button>
+                    <!-- Action Dropdown -->
+                    <button class="bg-white border border-gray-300 rounded-lg px-4 py-2">Actions</button>
+                    <button class="bg-white border border-gray-300 rounded-lg px-4 py-2">Filter</button>
+                </div>
+            </div>
+
+            <!-- Client Table -->
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-4">Client Name</th>
+                        <th class="px-4 py-3">Phone</th>
+                        <th class="px-4 py-3">Email</th>
+                        <th class="px-4 py-3">Address</th>
+                        <th class="px-4 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let client of clients" class="border-b">
+                        <td class="px-4 py-3">{{ client.name }}</td>
+                        <td class="px-4 py-3">{{ client.phone }}</td>
+                        <td class="px-4 py-3">{{ client.vehicle.make }}</td>
+                        <td class="px-4 py-3">{{ client.vehicle.model}}</td>
+                        <td class="px-4 py-3">
+                            <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #actionsMenu="matMenu">
+                                <button mat-menu-item>{{client.name}}</button>
+                                <button mat-menu-item>View</button>
+                                <button mat-menu-item>Delete</button>
+                            </mat-menu>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination Controls -->
+            <nav class="flex justify-between items-center p-4" aria-label="Table navigation">
+                <span class="text-sm font-normal text-gray-500">
+                    Showing <span class="font-semibold">{{ currentPage }}</span> of <span class="font-semibold">{{
+                        totalClients }}</span>
+                </span>
+                <ul class="flex space-x-1">
+                    <li *ngFor="let page of pages">
+                        <a (click)="goToPage(page)" class="px-3 py-1.5 rounded border border-gray-300">{{ page }}</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
