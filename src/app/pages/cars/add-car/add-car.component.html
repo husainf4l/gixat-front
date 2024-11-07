@@ -4,6 +4,29 @@
         <h2 class="text-lg font-semibold text-gray-900">Add New Car</h2>
   
         <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <!-- Client with Autocomplete -->
+          <div class="sm:col-span-full">
+            <label for="client" class="block text-sm font-medium text-gray-900">Client</label>
+            <div class="mt-2">
+              <input
+                type="text"
+                id="client"
+                name="client"
+                [(ngModel)]="car.client!.firstName"
+                (ngModelChange)="filterClients()"
+                [matAutocomplete]="autoClient"
+                placeholder="Select client"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+              <mat-autocomplete #autoClient="matAutocomplete">
+                <mat-option *ngFor="let client of filteredClients" [value]="client.firstName" (onSelectionChange)="onClientSelected(client)">
+                  {{ client.firstName }} {{ client.lastName }}
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+          </div>
+  
           <!-- Make with Autocomplete -->
           <div class="sm:col-span-3">
             <label for="make" class="block text-sm font-medium text-gray-900">Make</label>
@@ -15,6 +38,7 @@
                 [(ngModel)]="car.make.name"
                 (ngModelChange)="filterMakes()"
                 [matAutocomplete]="autoMake"
+                placeholder="Select make"
                 class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
@@ -37,6 +61,7 @@
                 [(ngModel)]="car.model.name"
                 (ngModelChange)="filterModels()"
                 [matAutocomplete]="autoModel"
+                placeholder="Select model"
                 class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
@@ -63,7 +88,6 @@
               />
             </div>
           </div>
-          
   
           <!-- Transmission Type -->
           <div class="sm:col-span-3">
@@ -80,7 +104,8 @@
               </select>
             </div>
           </div>
-          
+  
+          <!-- Notes -->
           <div class="col-span-full">
             <label for="notes" class="block text-sm font-medium text-gray-900">Notes</label>
             <div class="mt-2">
@@ -94,8 +119,8 @@
             </div>
             <p class="mt-2 text-sm text-gray-500">Additional details about the car.</p>
           </div>
-        </div>       
-     </div>
+        </div>
+      </div>
   
       <div class="mt-6 flex items-center justify-end gap-x-4">
         <button type="button" class="text-sm font-semibold text-gray-600" (click)="cancel()">Cancel</button>

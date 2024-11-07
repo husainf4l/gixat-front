@@ -28,7 +28,8 @@ export class AddClientComponent {
     city: '',
     streetAddress: '',
     notes: '',
-    cars: []
+    cars: [],
+    id: ''
   };
 
   addClient() {
