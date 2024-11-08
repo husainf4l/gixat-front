@@ -5,22 +5,18 @@
         <div class="bg-white shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 p-4">
                 <div class="w-full md:w-1/2">
-                    <form (submit)="onSearch()">
-                        <div class="relative w-full">
-                            <input type="text" [(ngModel)]="searchQuery" placeholder="Search Clients"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full pl-10 p-2 focus:ring-primary-500" />
-                            <button type="submit" class="hidden"></button>
-                        </div>
-                    </form>
+                    <div class="relative w-full">
+                        <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search Clients"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full pl-10 p-2 focus:ring-primary-500"
+                            [ngModelOptions]="{standalone: true}" />
+                    </div>
                 </div>
+
                 <div class="flex space-x-3">
                     <button routerLink="/app/clients/add-client"
                         class="text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2">
                         Add Client
                     </button>
-                    <!-- Action Dropdown -->
-                    <button class="bg-white border border-gray-300 rounded-lg px-4 py-2">Actions</button>
-                    <button class="bg-white border border-gray-300 rounded-lg px-4 py-2">Filter</button>
                 </div>
             </div>
 
@@ -37,18 +33,19 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let client of clients" class="border-b">
-                        <td class="px-4 py-3">{{ client.name }}</td>
-                        <td class="px-4 py-3">{{ client.phone }}</td>
-                        <td class="px-4 py-3">{{ client.vehicle.make }}</td>
-                        <td class="px-4 py-3">{{ client.vehicle.model}}</td>
+                        <td class="px-4 py-3">{{ client.firstName }}</td>
+                        <td class="px-4 py-3">{{ client.phoneNumber }}</td>
+                        <td class="px-4 py-3">{{ client.email }}</td>
+                        <td class="px-4 py-3">{{ client.address.city}}</td>
                         <td class="px-4 py-3">
                             <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                 <mat-icon>more_vert</mat-icon>
                             </button>
                             <mat-menu #actionsMenu="matMenu">
-                                <button mat-menu-item>{{client.name}}</button>
                                 <button mat-menu-item>View</button>
-                                <button mat-menu-item>Delete</button>
+                                <button mat-menu-item (click)="editClient(client.id)">Edit</button>
+                                <button mat-menu-item (click)="deleteClient(client.id)">Delete</button>
+
                             </mat-menu>
                         </td>
                     </tr>
@@ -58,15 +55,19 @@
             <!-- Pagination Controls -->
             <nav class="flex justify-between items-center p-4" aria-label="Table navigation">
                 <span class="text-sm font-normal text-gray-500">
-                    Showing <span class="font-semibold">{{ currentPage }}</span> of <span class="font-semibold">{{
-                        totalClients }}</span>
+                    Showing page <span class="font-semibold">{{ currentPage }}</span> of <span class="font-semibold">{{
+                        totalPages }}</span>
                 </span>
                 <ul class="flex space-x-1">
-                    <li *ngFor="let page of pages">
-                        <a (click)="goToPage(page)" class="px-3 py-1.5 rounded border border-gray-300">{{ page }}</a>
+                    <li *ngFor="let page of [].constructor(totalPages); let i = index">
+                        <button (click)="goToPage(i + 1)" class="px-3 py-1.5 rounded border border-gray-300"
+                            [class.bg-blue-600]="currentPage === i + 1" [class.text-white]="currentPage === i + 1">
+                            {{ i + 1 }}
+                        </button>
                     </li>
                 </ul>
             </nav>
+
         </div>
     </div>
 </div>

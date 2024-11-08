@@ -1,18 +1,45 @@
 import { Client } from "./client.model";
 
+export interface CarCreateInput {
+  id?: string;
+  makeId: string;
+  modelId: string;
+  year: number;
+  transmissionType: "Automatic" | "Manual";
+  vin?: string;
+  licenseNumber?: string;
+  notes?: string;
+  clientId: string;
+}
+
+
 export interface Car {
+  id: string;
   make: Make;
+  makeId: string;
   model: Model;
-  year: string;
+  modelId: string
+  year: number;
   vin?: string;
   licenseNumber?: string;
   transmissionType: TransmissionType;
-  clientId: string;      // Unique identifier for the associated client
-  client?: Client;       // Full client details, populated as needed
+  clientId: string;
+  client?: Client;
   notes?: string;
   history: CarHistory[];
   inspections: Inspection[];
   jobCards: JobCard[];
+  status: CarStatus;
+}
+
+export enum CarStatus {
+  CHECKED_IN = "CHECKED_IN",
+  DIAGNOSIS = "DIAGNOSIS",
+  AWAITING_PARTS = "AWAITING_PARTS",
+  IN_SERVICE = "IN_SERVICE",
+  READY_FOR_PICKUP = "READY_FOR_PICKUP",
+  PICKED_UP = "PICKED_UP",
+  CANCELLED = "CANCELLED",
 }
 
 export type TransmissionType = "Automatic" | "Manual";
@@ -29,6 +56,7 @@ export interface Inspection {
   color?: string;
   imageUrl?: string;
   notes?: string;
+  inspectorName?: string;
 }
 
 export interface JobCard {
@@ -37,9 +65,25 @@ export interface JobCard {
   description: string;
   status: JobStatus;
   cost?: number;
+  partsUsed?: Part[];
+  assignedTechnician?: Technician;
 }
 
 export type JobStatus = "Pending" | "In Progress" | "Completed";
+
+export interface Part {
+  id: string;
+  name: string;
+  quantity: number;
+  cost: number;
+}
+export interface Technician {
+  id: string;
+  name: string;
+  experienceLevel: ExperienceLevel;
+}
+
+export type ExperienceLevel = "Junior" | "Intermediate" | "Senior";
 
 export interface Make {
   id: string;

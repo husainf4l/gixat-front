@@ -1,9 +1,13 @@
+// add-car.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Car, Make, Model } from '../../../services/models/car.model';
+import { CarCreateInput, Make, Model } from '../../../services/models/car.model';
 import { Client } from '../../../services/models/client.model';
+import { CarService } from '../../../services/car.service';
+import { ClientService } from '../../../services/client.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-car',
@@ -12,102 +16,96 @@ import { Client } from '../../../services/models/client.model';
   templateUrl: './add-car.component.html',
   styleUrls: ['./add-car.component.css']
 })
+
 export class AddCarComponent implements OnInit {
-  car: Car = {
-    make: { id: '', name: '', models: [] },
-    model: { id: '', name: '' },
-    year: '2020',
+  // Properties and constructor remain the same
+  car: CarCreateInput = {
+    makeId: '',
+    modelId: '',
+    year: 2020,
     transmissionType: "Automatic",
-    vin: '',
-    licenseNumber: '',
     notes: '',
-    history: [],
-    inspections: [],
-    jobCards: [],
     clientId: '',
-    client: {  // Initialize with all required Client properties
-      id: '',
-      companyName: '',
-      taxId: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      country: '',
-      city: '',
-      streetAddress: '',
-      notes: '',
-      cars: []
-    }
   };
 
-  makes: Make[] = [
-    { id: '1', name: 'BMW', models: [{ id: 'm1', name: 'X5' }, { id: 'm2', name: 'X3' }] },
-    { id: '2', name: 'Mercedes', models: [{ id: 'm1', name: 'C-Class' }, { id: 'm2', name: 'E-Class' }] },
-  ];
+  clientDisplayName = '';
+  makeDisplayName = '';
+  modelDisplayName = '';
 
-  clients: Client[] = [
-    { id: 'c1', firstName: 'John', lastName: 'Doe', phone: '123456789', email: 'john@example.com', country: 'USA', city: 'New York', streetAddress: '123 Main St', notes: '', cars: [] },
-    { id: 'c2', firstName: 'Jane', lastName: 'Smith', phone: '987654321', email: 'jane@example.com', country: 'Canada', city: 'Toronto', streetAddress: '456 Elm St', notes: '', cars: [] },
-    // Additional sample clients as needed
-  ];
-
-  filteredMakes: Make[] = [...this.makes];
+  makes: Make[] = [];
+  clients: Client[] = [];
   filteredModels: Model[] = [];
-  filteredClients: Client[] = [...this.clients];
+  filteredMakes: Make[] = [];
+  filteredClients: Client[] = [];
 
-  constructor() {}
+  constructor(private carService: CarService, private clientService: ClientService, private router: Router) { }
 
   ngOnInit(): void {
-    if (this.car.clientId) {
-      this.car.client = this.clients.find(client => client.id === this.car.clientId);
-    }
+    this.carService.getMakes().subscribe(makes => this.makes = makes);
+    this.clientService.getAllClients().subscribe(clients => this.clients = clients);
   }
 
-  filterMakes() {
-    const searchValue = this.car.make.name.toLowerCase();
-    this.filteredMakes = this.makes.filter(make => make.name.toLowerCase().includes(searchValue));
+  // Method for selecting a client
+  onClientSelected(client: Client) {
+    this.car.clientId = client.id;
+    this.clientDisplayName = `${client.firstName} ${client.lastName}`;
   }
 
+  // Method for selecting a make
   onMakeSelected(make: Make) {
-    this.car.make = make;
-    this.filteredModels = make.models;
+    this.car.makeId = make.id;
+    this.makeDisplayName = make.name;
+    this.filteredModels = make.models; // Set models for the selected make
   }
 
-  filterModels() {
-    const searchValue = this.car.model.name.toLowerCase();
-    this.filteredModels = this.car.make.models.filter(model => model.name.toLowerCase().includes(searchValue));
+  // Method for selecting a model
+  onModelSelected(model: Model) {
+    this.car.modelId = model.id;
+    this.modelDisplayName = model.name;
   }
 
-  filterClients() {
-    const searchValue = (this.car.client?.firstName || '').toLowerCase();
+  // Filter method for clients
+  filterClients(searchValue: string) {
     this.filteredClients = this.clients.filter(client =>
-      `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchValue)
+      `${client.firstName} ${client.lastName}`.toLowerCase().includes(searchValue.toLowerCase())
     );
   }
 
-  onClientSelected(client: Client) {
-    this.car.clientId = client.id;
-    this.car.client = client;
+  // Filter method for makes
+  filterMakes(searchValue: string) {
+    this.filteredMakes = this.makes.filter(make =>
+      make.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }
+
+  // Filter method for models
+  filterModels(searchValue: string) {
+    this.filteredModels = this.filteredModels.filter(model =>
+      model.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
   }
 
   addCar() {
-    console.log('Car details:', this.car);
+    this.carService.createCar(this.car).subscribe({
+      next: (response) => {
+        console.log('Client successfully added:', response);
+        this.router.navigate(['/app']);
+      },
+      error: (err) => console.error('Error adding car:', err)
+    });
   }
 
   cancel() {
     this.car = {
-      make: { id: '', name: '', models: [] },
-      model: { id: '', name: '' },
-      year: '2020',
+      makeId: '',
+      modelId: '',
+      year: 2020,
       transmissionType: "Automatic",
-      vin: '',
-      licenseNumber: '',
       notes: '',
-      history: [],
-      inspections: [],
-      jobCards: [],
-      clientId: '',
+      clientId: ''
     };
+    this.clientDisplayName = '';
+    this.makeDisplayName = '';
+    this.modelDisplayName = '';
   }
 }

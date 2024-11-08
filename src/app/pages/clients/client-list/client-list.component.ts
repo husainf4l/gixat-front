@@ -1,60 +1,104 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialog } from '@angular/material/dialog';
-import { AddClientComponent } from '../add-client/add-client.component';
-
-
+import { ClientService } from '../../../services/client.service';
+import { Client } from '../../../services/models/client.model';
 
 @Component({
   selector: 'app-client-list',
   standalone: true,
   imports: [MatIconModule, MatMenuModule, CommonModule, RouterLink, FormsModule],
   templateUrl: './client-list.component.html',
-  styleUrl: './client-list.component.css'
+  styleUrls: ['./client-list.component.css']
 })
-export class ClientListComponent {
+export class ClientListComponent implements OnInit {
+  clients: Client[] = [];
+  filteredClients: Client[] = [];
+  displayedClients: Client[] = [];
   searchQuery = '';
   currentPage = 1;
-  totalClients = 100; // Adjust based on actual client count
-  pages = [1, 2, 3, 4, 5]; // Mock pagination
+  totalClients = 0;
+  clientsPerPage = 10;
+  pages: number[] = [];
+  limit = 10;
+  totalPages = 1;
 
 
-  clients = [
-    { id: 1, name: 'John Doe', phone: '123-456-7890', vehicle: { id: "ssss", make: 'Ford bmw', model: "bmw" }, notes: "hee" },
-    { id: 2, name: 'Jane Smith', phone: '234-567-8901', vehicle: { id: "ssss", make: 'merc Mustang', model: "bmw" } },
-    { id: 3, name: 'Jim Beam', phone: '345-678-9012', vehicle: { id: "ssss", make: 'Kia Mustang', model: "bmw" } }
-  ];
+  constructor(private clientService: ClientService) { }
+
+  ngOnInit(): void {
+    this.loadClients(this.currentPage);
+  }
+
+  loadClients(page: number) {
+    this.clientService.findAllClientsL(page, this.limit).subscribe({
+      next: (data) => {
+        this.clients = data.data;
+        this.totalClients = data.totalClients;
+        this.totalPages = data.totalPages;
+        this.currentPage = data.currentPage;
+      },
+      error: (err) => {
+        console.error('Error fetching clients:', err);
+      },
+    });
+  }
+
 
   onSearch() {
-    console.log(this.searchQuery);
-    // Implement search functionality here
-  }
-  constructor() { }
-
-
-
-  editClient() {
-    // Open edit client modal
-  }
-  viewClient() {
-    // Open client details or preview
+    const query = this.searchQuery.trim().toLowerCase();
+    if (query) {
+      this.clients = this.clients.filter(client =>
+        client.firstName.toLowerCase().includes(query) ||
+        client.lastName.toLowerCase().includes(query) ||
+        client.phoneNumber.includes(query)
+      );
+    } else {
+      this.loadClients(this.currentPage);
+    }
   }
 
-  deleteClient() {
-    // Confirmation and delete logic
+
+
+  updatePagination() {
+    this.totalClients = this.filteredClients.length;
+    const pageCount = Math.ceil(this.totalClients / this.clientsPerPage);
+    this.pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   }
-  onEdit() { }
-  onPreview() { }
-  onDelete() { }
+
+  updateDisplayedClients() {
+    const start = (this.currentPage - 1) * this.clientsPerPage;
+    const end = start + this.clientsPerPage;
+    this.displayedClients = this.filteredClients.slice(start, end);
+  }
 
   goToPage(page: number) {
-    this.currentPage = page;
-    // Logic to load the specific page of clients
+    if (page >= 1 && page <= this.totalPages) {
+      this.loadClients(page);
+    }
   }
 
+  editClient(clientId: string) {
+    // Code to open an edit modal or navigate to an edit page
+  }
 
+  viewClient(clientId: string) {
+    // Code to view client details in a modal or navigate to a details page
+  }
+
+  deleteClient(clientId: string) {
+    if (confirm('Are you sure you want to delete this client?')) {
+      this.clientService.deleteClient(clientId).subscribe({
+        next: () => {
+          this.loadClients(this.currentPage); // Reload clients after deletion
+        },
+        error: (err) => {
+          console.error('Error deleting client:', err);
+        },
+      });
+    }
+  }
 }

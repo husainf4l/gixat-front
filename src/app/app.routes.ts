@@ -12,6 +12,7 @@ import { AddClientComponent } from './pages/clients/add-client/add-client.compon
 import { ClientListComponent } from './pages/clients/client-list/client-list.component';
 import { CarsComponent } from './pages/cars/cars.component';
 import { AddCarComponent } from './pages/cars/add-car/add-car.component';
+import { CarListComponent } from './pages/cars/car-list/car-list.component';
 
 const mainRoutes: Routes = [
     {
@@ -34,9 +35,13 @@ const dashboardRoutes: Routes = [
             { path: 'clients', component: ClientsComponent },
             { path: 'clients/list', component: ClientListComponent },
             { path: 'clients/add-client', component: AddClientComponent },
+
             { path: 'cars', component: CarsComponent },
-            { path: 'cars/list', component: ClientListComponent },
+            { path: 'cars/list', component: CarListComponent },
             { path: 'cars/add-car', component: AddCarComponent },
+
+            { path: 'reports', component: AddCarComponent },
+
 
         ]
     },
