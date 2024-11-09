@@ -1,0 +1,62 @@
+<div class="p-6 space-y-6">
+    <h2 class="text-xl font-semibold mb-4">Inventory Management</h2>
+
+    <!-- Add New Item Form -->
+    <div class="flex justify-end mb-4">
+        <a routerLink="add" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            Add New Item
+        </a>
+    </div>
+
+
+    <!-- Edit Item Form -->
+    <div *ngIf="editItem" class="p-4 bg-yellow-100 rounded-lg shadow-sm">
+        <h3 class="text-sm font-medium mb-2">Edit Item</h3>
+        <div class="space-y-2">
+            <input [(ngModel)]="editItem.name" placeholder="Item Name"
+                class="border border-gray-300 rounded px-3 py-2 w-full" />
+            <input type="number" [(ngModel)]="editItem.quantity" placeholder="Quantity"
+                class="border border-gray-300 rounded px-3 py-2 w-full" />
+            <input [(ngModel)]="editItem.description" placeholder="Description"
+                class="border border-gray-300 rounded px-3 py-2 w-full" />
+            <div class="flex space-x-2">
+                <button (click)="updateItem()"
+                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                    Save Changes
+                </button>
+                <button (click)="cancelEdit()"
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory List -->
+    <div>
+        <h3 class="text-sm font-medium mb-2">Inventory List</h3>
+        <table class="w-full text-left border border-gray-200 rounded-lg shadow-sm">
+            <thead>
+                <tr class="bg-gray-100 text-gray-600">
+                    <th class="py-2 px-4 border-b">ID</th>
+                    <th class="py-2 px-4 border-b">Name</th>
+                    <th class="py-2 px-4 border-b">Quantity</th>
+                    <th class="py-2 px-4 border-b">Description</th>
+                    <th class="py-2 px-4 border-b">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of inventory" class="hover:bg-gray-50">
+                    <td class="py-2 px-4 border-b">{{ item.id }}</td>
+                    <td class="py-2 px-4 border-b">{{ item.name }}</td>
+                    <td class="py-2 px-4 border-b">{{ item.quantity }}</td>
+                    <td class="py-2 px-4 border-b">{{ item.description }}</td>
+                    <td class="py-2 px-4 border-b">
+                        <button (click)="startEdit(item)" class="text-blue-600 hover:underline">Edit</button>
+                        <button (click)="deleteItem(item.id)" class="text-red-600 hover:underline ml-2">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

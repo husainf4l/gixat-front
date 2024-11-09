@@ -1,0 +1,136 @@
+<section class="flex items-center justify-center">
+    <form autocomplete="off" class="w-full md:w-2/3" (ngSubmit)="addItem()" (keydown.enter)="$event.preventDefault()">
+        <div class="border-b border-gray-900/10 pb-12">
+            <h2 class="text-lg font-semibold text-gray-900">Add New Inventory Item</h2>
+
+            <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+                <!-- Name -->
+                <div class="sm:col-span-3">
+                    <label for="name" class="block text-sm font-medium text-gray-900">Item Name</label>
+                    <div class="mt-2">
+                        <input type="text" id="name" name="name" [(ngModel)]="newItem.name"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="sm:col-span-3">
+                    <label for="quantity" class="block text-sm font-medium text-gray-900">Quantity</label>
+                    <div class="mt-2">
+                        <input type="number" id="quantity" name="quantity" [(ngModel)]="newItem.quantity"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="sm:col-span-full">
+                    <label for="description" class="block text-sm font-medium text-gray-900">Description</label>
+                    <div class="mt-2">
+                        <textarea id="description" name="description" [(ngModel)]="newItem.description" rows="4"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                    </div>
+                </div>
+
+                <!-- Category with Autocomplete -->
+                <div class="sm:col-span-3">
+                    <label for="category" class="block text-sm font-medium text-gray-900">Category</label>
+                    <div class="mt-2">
+                        <input type="text" placeholder="Select category" aria-label="Category"
+                            [formControl]="categoryControl" [matAutocomplete]="auto"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                        <mat-autocomplete #auto="matAutocomplete"
+                            (optionSelected)="onCategorySelected($event.option.value)">
+                            <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+                                {{ category.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+                </div>
+
+                <!-- Unit Price -->
+                <div class="sm:col-span-3">
+                    <label for="unitPrice" class="block text-sm font-medium text-gray-900">Unit Price</label>
+                    <div class="mt-2">
+                        <input type="number" id="unitPrice" name="unitPrice" [(ngModel)]="newItem.unitPrice"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+
+                <!-- Cost -->
+                <div class="sm:col-span-3">
+                    <label for="cost" class="block text-sm font-medium text-gray-900">Cost</label>
+                    <div class="mt-2">
+                        <input type="number" id="cost" name="cost" [(ngModel)]="newItem.cost"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+
+                <!-- Selling Price -->
+                <div class="sm:col-span-3">
+                    <label for="sellingPrice" class="block text-sm font-medium text-gray-900">Selling Price</label>
+                    <div class="mt-2">
+                        <input type="number" id="sellingPrice" name="sellingPrice" [(ngModel)]="newItem.sellingPrice"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+
+                <!-- Supplier -->
+                <div class="sm:col-span-3">
+                    <label for="supplier" class="block text-sm font-medium text-gray-900">Supplier</label>
+                    <div class="mt-2">
+                        <input type="text" id="supplier" name="supplier" [(ngModel)]="newItem.supplier.name"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="sm:col-span-3">
+                    <label for="status" class="block text-sm font-medium text-gray-900">Status</label>
+                    <div class="mt-2">
+                        <select id="status" name="status" [(ngModel)]="newItem.status"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required>
+                            <option value="IN_STOCK">In Stock</option>
+                            <option value="OUT_OF_STOCK">Out of Stock</option>
+                            <option value="LOW_STOCK">Low Stock</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Reorder Level -->
+                <div class="sm:col-span-3">
+                    <label for="reorderLevel" class="block text-sm font-medium text-gray-900">Reorder Level</label>
+                    <div class="mt-2">
+                        <input type="number" id="reorderLevel" name="reorderLevel" [(ngModel)]="newItem.reorderLevel"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="sm:col-span-full">
+                    <label for="notes" class="block text-sm font-medium text-gray-900">Notes</label>
+                    <div class="mt-2">
+                        <textarea id="notes" name="notes" [(ngModel)]="newItem.name" rows="4"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500">Additional details about the item.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit and Cancel buttons -->
+        <div class="mt-6 flex items-center justify-end gap-x-4">
+            <button type="button" class="text-sm font-semibold text-gray-600" (click)="cancel()">Cancel</button>
+            <button type="submit"
+                class="px-4 py-2 rounded-md bg-indigo-600 text-white font-medium shadow hover:bg-indigo-700 focus:outline-none">Save</button>
+        </div>
+    </form>
+</section>

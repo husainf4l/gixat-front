@@ -13,6 +13,8 @@ import { ClientListComponent } from './pages/clients/client-list/client-list.com
 import { CarsComponent } from './pages/cars/cars.component';
 import { AddCarComponent } from './pages/cars/add-car/add-car.component';
 import { CarListComponent } from './pages/cars/car-list/car-list.component';
+import { InventoryComponent } from './pages/inventory/inventory.component';
+import { AddInventoryItemComponent } from './pages/inventory/add-inventory-item/add-inventory-item.component';
 
 const mainRoutes: Routes = [
     {
@@ -39,6 +41,11 @@ const dashboardRoutes: Routes = [
             { path: 'cars', component: CarsComponent },
             { path: 'cars/list', component: CarListComponent },
             { path: 'cars/add-car', component: AddCarComponent },
+
+            { path: 'inventory', component: InventoryComponent },
+            { path: 'inventory/add', component: AddInventoryItemComponent },
+
+
 
             { path: 'reports', component: AddCarComponent },
 
