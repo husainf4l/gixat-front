@@ -7,7 +7,7 @@ import { HeaderComponent } from './header/header.component';
 @Component({
   selector: 'app-user-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, NavbarComponent, HeaderComponent, MatSidenavModule],
+  imports: [NavbarComponent, HeaderComponent, MatSidenavModule],
   templateUrl: './user-layout.component.html',
   styleUrl: './user-layout.component.css'
 })
