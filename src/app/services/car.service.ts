@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Car, CarCreateInput, CarStatus, Make } from './models/car.model';
-import { Client } from './models/client.model';
+import { Car, CarStatus, Make } from './models/car.model';
 import { environment } from '../enviroments/environment';
 
 @Injectable({
@@ -13,24 +12,29 @@ export class CarService {
 
     constructor(private http: HttpClient) { }
 
+    // Retrieve all makes with their models
     getMakes(): Observable<Make[]> {
         return this.http.get<Make[]>(`${this.carUrl}/makes`);
     }
 
-    createCar(car: CarCreateInput): Observable<Car> {
+    // Create a new car
+    createCar(car: Car): Observable<Car> {
         return this.http.post<Car>(this.carUrl, car);
     }
 
-    findAllCarsL(page: number = 1, limit: number = 10): Observable<any> {
-        return this.http.get<any>(`${this.carUrl}/limit?page=${page}&limit=${limit}`);
+    // Fetch cars with pagination
+    findAllCarsL(page: number = 1, limit: number = 10): Observable<{ data: Car[]; totalClients: number; currentPage: number; totalPages: number }> {
+        return this.http.get<{ data: Car[]; totalClients: number; currentPage: number; totalPages: number }>(`${this.carUrl}/limit?page=${page}&limit=${limit}`);
     }
 
+    // Delete a specific car by ID
     deleteCar(id: string): Observable<void> {
         return this.http.delete<void>(`${this.carUrl}/${id}`);
     }
 
-    updateCarStatus(carId: string, newStatus: CarStatus): Observable<any> {
+    // Update the status of a specific car
+    updateCarStatus(carId: string, newStatus: CarStatus): Observable<Car> {
         const url = `${this.carUrl}/${carId}/status`;
-        return this.http.put(url, { status: newStatus });
+        return this.http.put<Car>(url, { status: newStatus });
     }
 }

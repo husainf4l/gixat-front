@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InventoryService } from '../../../services/inventory.service';
-import { InventoryItem, Category } from '../../../services/models/inventory.model';
+import { InventoryItem, Category, InventoryStatus } from '../../../services/models/inventory.model';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,8 +44,8 @@ export class AddInventoryItemComponent implements OnInit {
       category: {} as Category,
       unitPrice: 0,
       supplier: {} as any,
-      status: 'IN_STOCK',
       reorderLevel: 0,
+      status: InventoryStatus.OUT_OF_STOCK,  // Use the enum here
       lastRestocked: new Date(),
       location: '',
       barcode: '',

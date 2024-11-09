@@ -1,6 +1,5 @@
-<!-- client-list.component.html -->
-<div class=" p-3 sm:p-5 antialiased">
-    <div class="mx-auto max-w-screen  ">
+<div class="p-3 sm:p-5 antialiased">
+    <div class="mx-auto max-w-screen">
         <!-- Header with Search and Actions -->
         <div class="bg-white shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 p-4">
@@ -32,20 +31,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let client of clients" class="border-b">
-                        <td class="px-4 py-3">{{ client.firstName }}</td>
-                        <td class="px-4 py-3">{{ client.phoneNumber }}</td>
-                        <td class="px-4 py-3">{{ client.email }}</td>
-                        <td class="px-4 py-3">{{ client.address.city}}</td>
+                    <tr *ngFor="let client of accounts" class="border-b">
+                        <td class="px-4 py-3">{{ client.name }}</td>
+                        <td class="px-4 py-3">{{ client.contactInfo?.phoneNumber }}</td>
+                        <td class="px-4 py-3">{{ client.contactInfo?.email }}</td>
+                        <td class="px-4 py-3">{{ client.address }}</td>
                         <td class="px-4 py-3">
                             <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                 <mat-icon>more_vert</mat-icon>
                             </button>
                             <mat-menu #actionsMenu="matMenu">
                                 <button mat-menu-item>View</button>
-                                <button mat-menu-item (click)="editClient(client.id)">Edit</button>
-                                <button mat-menu-item (click)="deleteClient(client.id)">Delete</button>
-
+                                <button mat-menu-item (click)="editAccount(client.id)">Edit</button>
+                                <button mat-menu-item (click)="deleteAccount(client.id)">Delete</button>
                             </mat-menu>
                         </td>
                     </tr>
@@ -67,7 +65,6 @@
                     </li>
                 </ul>
             </nav>
-
         </div>
     </div>
 </div>

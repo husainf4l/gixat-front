@@ -1,9 +1,9 @@
-// inventory.service.ts
+// src/app/services/inventory.service.ts
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Category, Supplier, InventoryItem } from './models/inventory.model';
+import { Category, InventoryItem, Supplier } from './models/inventory.model';
 import { environment } from '../enviroments/environment';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class InventoryService {
 
   // Inventory Item Endpoints
   getAllItems(): Observable<InventoryItem[]> {
-    return this.http.get<InventoryItem[]>(`${this.baseUrl}`);
+    return this.http.get<InventoryItem[]>(this.baseUrl);
   }
 
   getItemById(id: number): Observable<InventoryItem> {
@@ -24,7 +24,7 @@ export class InventoryService {
   }
 
   createItem(item: InventoryItem): Observable<InventoryItem> {
-    return this.http.post<InventoryItem>(`${this.baseUrl}`, item);
+    return this.http.post<InventoryItem>(this.baseUrl, item);
   }
 
   updateItem(id: number, item: InventoryItem): Observable<InventoryItem> {

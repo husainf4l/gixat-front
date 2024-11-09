@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
-import { ClientService } from '../../../services/client.service';
-import { Client } from '../../../services/models/client.model';
+import { AccountService } from '../../../services/account.service';
+import { Account } from '../../../services/models/inventory.model';
 
 @Component({
   selector: 'app-client-list',
@@ -15,88 +15,96 @@ import { Client } from '../../../services/models/client.model';
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
-  clients: Client[] = [];
-  filteredClients: Client[] = [];
-  displayedClients: Client[] = [];
+  accounts: Account[] = [];
+  filteredAccounts: Account[] = [];
+  displayedAccounts: Account[] = [];
   searchQuery = '';
   currentPage = 1;
-  totalClients = 0;
-  clientsPerPage = 10;
+  totalAccounts = 0;
+  accountsPerPage = 10;
   pages: number[] = [];
   limit = 10;
   totalPages = 1;
 
-
-  constructor(private clientService: ClientService) { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.loadClients(this.currentPage);
+    this.loadClientAccounts(this.currentPage); // Load client accounts initially
   }
 
-  loadClients(page: number) {
-    this.clientService.findAllClientsL(page, this.limit).subscribe({
+  loadClientAccounts(page: number) {
+    this.accountService.findAllClientAccountsPaginated(page, this.limit).subscribe({
       next: (data) => {
-        this.clients = data.data;
-        this.totalClients = data.totalClients;
+        this.accounts = data.data;  // Assume API returns paginated accounts data
+        this.filteredAccounts = [...this.accounts]; // Copy data to filtered accounts
+        this.totalAccounts = data.totalAccounts;
         this.totalPages = data.totalPages;
         this.currentPage = data.currentPage;
+        this.updateDisplayedAccounts();
+        this.updatePagination();
       },
       error: (err) => {
-        console.error('Error fetching clients:', err);
+        console.error('Error fetching client accounts:', err);
       },
     });
   }
 
-
+  // Search functionality for clients
   onSearch() {
     const query = this.searchQuery.trim().toLowerCase();
     if (query) {
-      this.clients = this.clients.filter(client =>
-        client.firstName.toLowerCase().includes(query) ||
-        client.lastName.toLowerCase().includes(query) ||
-        client.phoneNumber.includes(query)
+      this.filteredAccounts = this.accounts.filter(account =>
+        account.name.toLowerCase().includes(query) ||
+        account.contactInfo?.phoneNumber?.includes(query) ||
+        account.contactInfo?.email?.toLowerCase().includes(query)
       );
     } else {
-      this.loadClients(this.currentPage);
+      this.filteredAccounts = [...this.accounts];
     }
+    this.updatePagination();
+    this.updateDisplayedAccounts();
   }
 
-
-
+  // Update pagination
   updatePagination() {
-    this.totalClients = this.filteredClients.length;
-    const pageCount = Math.ceil(this.totalClients / this.clientsPerPage);
+    const pageCount = Math.ceil(this.filteredAccounts.length / this.accountsPerPage);
     this.pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
-  updateDisplayedClients() {
-    const start = (this.currentPage - 1) * this.clientsPerPage;
-    const end = start + this.clientsPerPage;
-    this.displayedClients = this.filteredClients.slice(start, end);
+  // Update displayed accounts for pagination
+  updateDisplayedAccounts() {
+    const start = (this.currentPage - 1) * this.accountsPerPage;
+    const end = start + this.accountsPerPage;
+    this.displayedAccounts = this.filteredAccounts.slice(start, end);
   }
 
+  // Go to specific page in pagination
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
-      this.loadClients(page);
+      this.currentPage = page;
+      this.updateDisplayedAccounts();
     }
   }
 
-  editClient(clientId: string) {
+  // Edit client account (open edit modal or navigate to edit page)
+  editAccount(accountId: number) {
     // Code to open an edit modal or navigate to an edit page
   }
 
-  viewClient(clientId: string) {
-    // Code to view client details in a modal or navigate to a details page
+  // View client account details (open modal or navigate to details page)
+  viewAccount(accountId: string) {
+    // Code to view account details in a modal or navigate to a details page
   }
 
-  deleteClient(clientId: string) {
-    if (confirm('Are you sure you want to delete this client?')) {
-      this.clientService.deleteClient(clientId).subscribe({
+  // Delete a client account
+  deleteAccount(accountId: number) {
+    if (confirm('Are you sure you want to delete this client account?')) {
+      this.accountService.deleteClient(accountId).subscribe({
         next: () => {
-          this.loadClients(this.currentPage); // Reload clients after deletion
+          this.loadClientAccounts(this.currentPage); // Reload accounts after deletion
         },
         error: (err) => {
-          console.error('Error deleting client:', err);
+          console.error('Error deleting client account:', err);
         },
       });
     }

@@ -31,7 +31,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let car of cars" class="border-b">
-                        <td class="px-4 py-3">{{ car.client?.firstName }} {{ car.client?.lastName }}</td>
+                        <td class="px-4 py-3">{{ car.clientAccount.clientName }}</td>
                         <td class="px-4 py-3">{{ car.make.name }} {{ car.model.name }}</td>
                         <td class="p-4 text-neutral-700 whitespace-nowrap">
                             <div *ngIf="!editingStatus[car.id]; else editStatusDropdown">

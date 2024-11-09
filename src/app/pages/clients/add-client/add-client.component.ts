@@ -1,49 +1,48 @@
 import { Component } from '@angular/core';
-import { Client } from '../../../services/models/client.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { ClientService } from '../../../services/client.service';
-
-
+import { Router } from '@angular/router';
+import { AccountService } from '../../../services/account.service';
+import { Client } from '../../../services/models/client.model';
 
 @Component({
   selector: 'app-add-client',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-client.component.html',
-  styleUrl: './add-client.component.css'
+  styleUrls: ['./add-client.component.css']
 })
 export class AddClientComponent {
-
-
   client: Client = {
     companyName: '',
+    clientName: '',
     taxId: '',
-    firstName: '',
-    lastName: '',
     phoneNumber: '',
     email: '',
     notes: '',
-    id: '',
-    address: { country: '', city: '', streetAddress: '' }
-
+    id: "0",
+    address: {
+      country: '',
+      city: '',
+      streetAddress: '',
+      id: '',
+      AccountReceivable: []  // This can be left empty initially
+    },
+    chartOfAccountId: '',
+    invoices: [],
+    cars: [],
   };
 
-
-
-  constructor(private clientService: ClientService, private router: Router) { }
+  constructor(private accountService: AccountService, private router: Router) { }
 
   addClient() {
     const clientData = {
+      clientName: this.client.clientName,
       companyName: this.client.companyName,
       taxId: this.client.taxId,
-      firstName: this.client.firstName,
-      lastName: this.client.lastName,
       phoneNumber: this.client.phoneNumber,
       email: this.client.email,
       notes: this.client.notes,
-      id: '',
       address: {
         create: {
           country: this.client.address.country,
@@ -52,19 +51,15 @@ export class AddClientComponent {
         }
       }
     };
-
-    // Send the data to the service for the backend request
-    this.clientService.createClient(clientData).subscribe({
+    // Call the service to create an Account Receivable (Client)
+    this.accountService.createClientAccount(clientData).subscribe({
       next: (response) => {
         console.log('Client successfully added:', response);
-        this.router.navigate(['/app']);
+        this.router.navigate(['/clients']); // Redirect to clients list after successful addition
       },
       error: (err) => {
         console.error('Error adding client:', err);
       }
     });
   }
-
-
-
 }

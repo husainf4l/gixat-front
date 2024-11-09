@@ -10,42 +10,42 @@ import { Client } from './models/client.model';
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = `${environment.apiUrl}/clients`;
+  private apiUrl = `${environment.apiUrl}/accounts/clients`;  // Assuming client data is handled through Accounts API
 
   constructor(private http: HttpClient) { }
 
-  // Create a new client
-  createClient(clientData: any) {
-    return this.http.post<Client>(this.apiUrl, clientData);
+  // Create a new client account (under Accounts Receivable)
+  createClient(clientData: any): Observable<Client> {
+    return this.http.post<Client>(`${this.apiUrl}`, clientData);
   }
 
-  findAllClientsL(page: number = 1, limit: number = 10): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/limit?page=${page}&limit=${limit}`);
-  }
-
+  // Get all client accounts
   getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(`${this.apiUrl}/all`);
+    return this.http.get<Client[]>(`${this.apiUrl}`);
   }
 
-
-  // New method to search clients
-  searchClients(query: string): Observable<Client[]> {
-    return this.http.get<Client[]>(`${this.apiUrl}/search?q=${query}`);
-  }
   // Get a client by ID
-  findClientById(id: string): Observable<Client> {
+  getClientById(id: string): Observable<Client> {
     return this.http.get<Client>(`${this.apiUrl}/${id}`);
   }
 
-  // Update a client by ID
-  updateClient(id: string, client: Partial<Client>): Observable<Client> {
-    return this.http.patch<Client>(`${this.apiUrl}/${id}`, client);
+  // Update client account by ID
+  updateClient(id: string, clientData: Partial<Client>): Observable<Client> {
+    return this.http.patch<Client>(`${this.apiUrl}/${id}`, clientData);
   }
 
-
-
-  // Delete a client by ID
+  // Delete client account by ID
   deleteClient(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  // Get a paginated list of clients
+  findAllClientsPaginated(page: number = 1, limit: number = 10): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/limit?page=${page}&limit=${limit}`);
+  }
+
+  // Search for clients by name, phone, or email
+  searchClients(query: string): Observable<Client[]> {
+    return this.http.get<Client[]>(`${this.apiUrl}/search?q=${query}`);
   }
 }

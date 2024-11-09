@@ -1,16 +1,39 @@
 export interface Category {
     id: number;
     name: string;
-    description?: string;       // Optional field to describe the category
-    parentCategoryId?: number;  // Optional field for subcategories, if needed
+    description?: string;
+    parentCategoryId?: number;
+}
+
+export interface Account {
+    id: number;
+    name: string;
+    accountCode: string;
+    accountType: AccountType;
+    contactInfo?: ContactInfo;
+    address?: string;
+}
+
+export enum AccountType {
+    ASSET = "ASSET",
+    LIABILITY = "LIABILITY",
+    EQUITY = "EQUITY",
+    REVENUE = "REVENUE",
+    EXPENSE = "EXPENSE",
+}
+
+export interface ContactInfo {
+    phoneNumber?: string;
+    email?: string;
 }
 
 export interface Supplier {
     id: number;
     name: string;
-    contactInfo?: string;       // Optional: phone, email, etc.
-    address?: string;           // Optional: supplier's address
+    contactInfo?: string; // e.g., phone or email
+    address?: string;     // Supplier's address if available
 }
+
 
 export interface InventoryItem {
     id: number;
@@ -21,8 +44,8 @@ export interface InventoryItem {
     unitPrice: number;
     cost: number;
     sellingPrice: number;
-    supplier: any;
-    status: 'IN_STOCK' | 'OUT_OF_STOCK' | 'LOW_STOCK';
+    supplier: Supplier; // Updated to reference Supplier
+    status: InventoryStatus;
     reorderLevel: number;
     lastRestocked?: Date;
     location?: string;
@@ -31,4 +54,10 @@ export interface InventoryItem {
     unitOfMeasure?: string;
     minOrderQuantity?: number;
     batchNumber?: string;
+}
+
+export enum InventoryStatus {
+    IN_STOCK = "IN_STOCK",
+    OUT_OF_STOCK = "OUT_OF_STOCK",
+    LOW_STOCK = "LOW_STOCK",
 }

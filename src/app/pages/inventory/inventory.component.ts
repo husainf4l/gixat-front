@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Category, InventoryItem } from '../../services/models/inventory.model';
+import { Category, InventoryItem, InventoryStatus } from '../../services/models/inventory.model';
 import { InventoryService } from '../../services/inventory.service';
 import { RouterLink } from '@angular/router';
 
@@ -34,7 +34,7 @@ export class InventoryComponent implements OnInit {
       category: {} as Category,
       unitPrice: 0,
       supplier: {} as any,
-      status: 'IN_STOCK',
+      status: InventoryStatus.IN_STOCK,
       reorderLevel: 0,
       lastRestocked: new Date(),
       location: '',

@@ -32,7 +32,6 @@ export class CarListComponent implements OnInit {
     this.loadCars(this.currentPage);
   }
 
-
   carStatuses = Object.values(CarStatus);
   editingStatus: { [carId: string]: boolean } = {};
 
@@ -51,16 +50,15 @@ export class CarListComponent implements OnInit {
     });
   }
 
-
-
-
   loadCars(page: number) {
     this.carService.findAllCarsL(page, this.limit).subscribe({
       next: (data) => {
         this.cars = data.data;
-        this.totalCars = data.totalCars;
+        this.totalCars = data.totalClients; // Corrected this line to use totalClients
         this.totalPages = data.totalPages;
         this.currentPage = data.currentPage;
+        this.updateDisplayedCars();
+        this.updatePagination();
       },
       error: (err) => {
         console.error('Error fetching cars:', err);
@@ -71,21 +69,21 @@ export class CarListComponent implements OnInit {
   onSearch() {
     const query = this.searchQuery.trim().toLowerCase();
     if (query) {
-      this.cars = this.cars.filter(car =>
+      this.filteredCars = this.cars.filter(car =>
         car.make.name.toLowerCase().includes(query) ||
         car.model.name.toLowerCase().includes(query) ||
         car.licenseNumber?.includes(query) ||
         car.vin?.includes(query)
-
       );
     } else {
-      this.loadCars(this.currentPage);
+      this.filteredCars = [...this.cars];
     }
+    this.updatePagination();
+    this.updateDisplayedCars();
   }
 
   updatePagination() {
-    this.totalCars = this.filteredCars.length;
-    const pageCount = Math.ceil(this.totalCars / this.carsPerPage);
+    const pageCount = Math.ceil(this.filteredCars.length / this.carsPerPage);
     this.pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
@@ -97,7 +95,8 @@ export class CarListComponent implements OnInit {
 
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
-      this.loadCars(page);
+      this.currentPage = page;
+      this.updateDisplayedCars();
     }
   }
 
