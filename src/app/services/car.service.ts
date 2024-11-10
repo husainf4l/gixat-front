@@ -24,7 +24,7 @@ export class CarService {
 
     // Fetch cars with pagination
     findAllCarsL(page: number = 1, limit: number = 10): Observable<{ data: Car[]; totalClients: number; currentPage: number; totalPages: number }> {
-        return this.http.get<{ data: Car[]; totalClients: number; currentPage: number; totalPages: number }>(`${this.carUrl}/limit?page=${page}&limit=${limit}`);
+        return this.http.get<{ data: Car[]; totalClients: number; currentPage: number; totalPages: number }>(`${this.carUrl}/paginate?page=${page}&limit=${limit}`);
     }
 
     // Delete a specific car by ID

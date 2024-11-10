@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../../../services/account.service';
 import { Client } from '../../../services/models/client.model';
+import { ClientService } from '../../../services/client.service';
 
 @Component({
   selector: 'app-add-client',
@@ -33,7 +34,7 @@ export class AddClientComponent {
     cars: [],
   };
 
-  constructor(private accountService: AccountService, private router: Router) { }
+  constructor(private clientService: ClientService, private router: Router) { }
 
   addClient() {
     const clientData = {
@@ -44,18 +45,18 @@ export class AddClientComponent {
       email: this.client.email,
       notes: this.client.notes,
       address: {
-        create: {
+         
           country: this.client.address.country,
           city: this.client.address.city,
           streetAddress: this.client.address.streetAddress
-        }
+        
       }
     };
     // Call the service to create an Account Receivable (Client)
-    this.accountService.createClientAccount(clientData).subscribe({
+    this.clientService.createClient(clientData).subscribe({
       next: (response) => {
         console.log('Client successfully added:', response);
-        this.router.navigate(['/clients']); // Redirect to clients list after successful addition
+        this.router.navigate(['app/clients']); // Redirect to clients list after successful addition
       },
       error: (err) => {
         console.error('Error adding client:', err);

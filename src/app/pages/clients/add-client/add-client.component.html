@@ -22,20 +22,14 @@
         </div>
 
         <div class="sm:col-span-3">
-          <label for="first-name" class="block text-sm/6 font-medium text-gray-900">First name</label>
+          <label for="first-name" class="block text-sm/6 font-medium text-gray-900">Client name</label>
           <div class="mt-2">
             <input type="text" name="first-name" [(ngModel)]="client.clientName" id="first-name" autocomplete="off"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
           </div>
         </div>
 
-        <div class="sm:col-span-3">
-          <label for="last-name" class="block text-sm/6 font-medium text-gray-900">Last name</label>
-          <div class="mt-2">
-            <input type="text" name="last-name" id="last-name" [(ngModel)]="client.clientName" autocomplete="off"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
-          </div>
-        </div>
+       
         <div class="sm:col-span-3">
           <label for="phone" class="block text-sm/6 font-medium text-gray-900">Phone number</label>
           <div class="mt-2">
@@ -57,7 +51,7 @@
 
 
 
-        <div class="sm:col-span-3">
+        <div class="sm:col-span-1">
           <label for="country" class="block text-sm/6 font-medium text-gray-900">Country</label>
           <div class="mt-2">
             <select id="country" name="country" autocomplete="off" [(ngModel)]="client.address.country"
@@ -69,7 +63,7 @@
           </div>
         </div>
 
-        <div class="sm:col-span-3">
+        <div class="sm:col-span-2">
           <label for="city" class="block text-sm/6 font-medium text-gray-900">City</label>
           <div class="mt-2">
             <input type="text" name="city" id="city" [(ngModel)]="client.address.city" autocomplete="off"

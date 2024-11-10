@@ -57,7 +57,7 @@ export class AccountService {
     return this.http.delete<void>(`${this.apiUrl}/client/${id}`);
   }
 
-  deleteClient(id: number): Observable<void> {
+  deleteClient(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/client/${id}`);
   }
 

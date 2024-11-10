@@ -31,11 +31,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let client of accounts" class="border-b">
-                        <td class="px-4 py-3">{{ client.name }}</td>
-                        <td class="px-4 py-3">{{ client.contactInfo?.phoneNumber }}</td>
-                        <td class="px-4 py-3">{{ client.contactInfo?.email }}</td>
-                        <td class="px-4 py-3">{{ client.address }}</td>
+                    <tr *ngFor="let client of clint" class="border-b">
+                        <td class="px-4 py-3">{{ client.clientName }}</td>
+                        <td class="px-4 py-3">{{ client.phoneNumber }}</td>
+                        <td class="px-4 py-3">{{ client.email }}</td>
+                        <td class="px-4 py-3">{{ client.address.city }}</td>
                         <td class="px-4 py-3">
                             <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
                                 <mat-icon>more_vert</mat-icon>

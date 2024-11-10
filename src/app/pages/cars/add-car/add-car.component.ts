@@ -6,11 +6,12 @@ import { ClientService } from '../../../services/client.service';  // Import Cli
 import { CarService } from '../../../services/car.service';
 import { Car, Make, Model, TransmissionType } from '../../../services/models/car.model';
 import { Client } from '../../../services/models/client.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-car',
   standalone: true,
-  imports: [FormsModule, MatAutocompleteModule],
+  imports: [FormsModule, MatAutocompleteModule, CommonModule],
   templateUrl: './add-car.component.html',
   styleUrls: ['./add-car.component.css']
 })
@@ -31,7 +32,7 @@ export class AddCarComponent implements OnInit {
 
   makes: Make[] = [];
   models: Model[] = [];
-  clients: Client[] = []; // Added clients array
+  clients: Client[] = []; 
   filteredModels: Model[] = [];
   filteredMakes: Make[] = [];
   filteredClients: Client[] = [];

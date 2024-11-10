@@ -10,18 +10,21 @@ import { Client } from './models/client.model';
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = `${environment.apiUrl}/accounts/clients`;  // Assuming client data is handled through Accounts API
+  private apiUrl = `${environment.apiUrl}/account-receivable`;  
 
   constructor(private http: HttpClient) { }
 
   // Create a new client account (under Accounts Receivable)
   createClient(clientData: any): Observable<Client> {
-    return this.http.post<Client>(`${this.apiUrl}`, clientData);
+    return this.http.post<Client>(`${this.apiUrl}/create`, clientData);
   }
 
+  findAllClientAccountsPaginated(page: number = 1, limit: number = 10): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/clients/limit?page=${page}&limit=${limit}`);
+  }
   // Get all client accounts
   getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(`${this.apiUrl}`);
+    return this.http.get<Client[]>(`${this.apiUrl}/clients`);
   }
 
   // Get a client by ID
@@ -36,7 +39,7 @@ export class ClientService {
 
   // Delete client account by ID
   deleteClient(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/client/${id}`);
   }
 
   // Get a paginated list of clients

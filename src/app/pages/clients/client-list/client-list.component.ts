@@ -6,6 +6,8 @@ import { RouterLink } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { AccountService } from '../../../services/account.service';
 import { Account } from '../../../services/models/inventory.model';
+import { Client } from '../../../services/models/client.model';
+import { ClientService } from '../../../services/client.service';
 
 @Component({
   selector: 'app-client-list',
@@ -15,9 +17,9 @@ import { Account } from '../../../services/models/inventory.model';
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
-  accounts: Account[] = [];
-  filteredAccounts: Account[] = [];
-  displayedAccounts: Account[] = [];
+  clint: Client[] = [];
+  filteredClint:  Client[] = [];
+  displayedClints:  Client[] = [];
   searchQuery = '';
   currentPage = 1;
   totalAccounts = 0;
@@ -26,17 +28,17 @@ export class ClientListComponent implements OnInit {
   limit = 10;
   totalPages = 1;
 
-  constructor(private accountService: AccountService) { }
+  constructor(private clientService: ClientService) { }
 
   ngOnInit(): void {
     this.loadClientAccounts(this.currentPage); // Load client accounts initially
   }
 
   loadClientAccounts(page: number) {
-    this.accountService.findAllClientAccountsPaginated(page, this.limit).subscribe({
+    this.clientService.findAllClientAccountsPaginated(page, this.limit).subscribe({
       next: (data) => {
-        this.accounts = data.data;  // Assume API returns paginated accounts data
-        this.filteredAccounts = [...this.accounts]; // Copy data to filtered accounts
+        this.clint = data.data;  // Assume API returns paginated accounts data
+        this.filteredClint = [...this.clint]; // Copy data to filtered accounts
         this.totalAccounts = data.totalAccounts;
         this.totalPages = data.totalPages;
         this.currentPage = data.currentPage;
@@ -53,13 +55,13 @@ export class ClientListComponent implements OnInit {
   onSearch() {
     const query = this.searchQuery.trim().toLowerCase();
     if (query) {
-      this.filteredAccounts = this.accounts.filter(account =>
-        account.name.toLowerCase().includes(query) ||
-        account.contactInfo?.phoneNumber?.includes(query) ||
-        account.contactInfo?.email?.toLowerCase().includes(query)
+      this.filteredClint = this.clint.filter(clints =>
+        clints.clientName.toLowerCase().includes(query) ||
+        clints.phoneNumber?.includes(query) ||
+        clints.email?.toLowerCase().includes(query)
       );
     } else {
-      this.filteredAccounts = [...this.accounts];
+      this.filteredClint = [...this.clint];
     }
     this.updatePagination();
     this.updateDisplayedAccounts();
@@ -67,7 +69,7 @@ export class ClientListComponent implements OnInit {
 
   // Update pagination
   updatePagination() {
-    const pageCount = Math.ceil(this.filteredAccounts.length / this.accountsPerPage);
+    const pageCount = Math.ceil(this.filteredClint.length / this.accountsPerPage);
     this.pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
@@ -75,7 +77,7 @@ export class ClientListComponent implements OnInit {
   updateDisplayedAccounts() {
     const start = (this.currentPage - 1) * this.accountsPerPage;
     const end = start + this.accountsPerPage;
-    this.displayedAccounts = this.filteredAccounts.slice(start, end);
+    this.displayedClints = this.filteredClint.slice(start, end);
   }
 
   // Go to specific page in pagination
@@ -87,7 +89,7 @@ export class ClientListComponent implements OnInit {
   }
 
   // Edit client account (open edit modal or navigate to edit page)
-  editAccount(accountId: number) {
+  editAccount(accountId: string) {
     // Code to open an edit modal or navigate to an edit page
   }
 
@@ -97,9 +99,9 @@ export class ClientListComponent implements OnInit {
   }
 
   // Delete a client account
-  deleteAccount(accountId: number) {
+  deleteAccount(accountId: string) {
     if (confirm('Are you sure you want to delete this client account?')) {
-      this.accountService.deleteClient(accountId).subscribe({
+      this.clientService.deleteClient(accountId).subscribe({
         next: () => {
           this.loadClientAccounts(this.currentPage); // Reload accounts after deletion
         },

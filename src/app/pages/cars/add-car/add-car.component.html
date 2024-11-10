@@ -12,9 +12,9 @@
               class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required [ngModelOptions]="{standalone: true}" />
             <mat-autocomplete #autoClient="matAutocomplete">
-              <mat-option *ngFor="let client of filteredClients" [value]="client.firstName"
+              <mat-option *ngFor="let client of filteredClients" [value]="client.clientName"
                 (onSelectionChange)="onClientSelected(client)">
-                {{ client.firstName }} {{ client.lastName }}
+                {{ client.clientName }}
               </mat-option>
             </mat-autocomplete>
           </div>
