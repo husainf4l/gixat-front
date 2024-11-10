@@ -18,7 +18,7 @@ import { ClientService } from '../../../services/client.service';
 })
 export class ClientListComponent implements OnInit {
   clint: Client[] = [];
-  filteredClint:  Client[] = [];
+  filteredClients:  Client[] = [];
   displayedClints:  Client[] = [];
   searchQuery = '';
   currentPage = 1;
@@ -38,7 +38,7 @@ export class ClientListComponent implements OnInit {
     this.clientService.findAllClientAccountsPaginated(page, this.limit).subscribe({
       next: (data) => {
         this.clint = data.data;  // Assume API returns paginated accounts data
-        this.filteredClint = [...this.clint]; // Copy data to filtered accounts
+        this.filteredClients = [...this.clint]; // Copy data to filtered accounts
         this.totalAccounts = data.totalAccounts;
         this.totalPages = data.totalPages;
         this.currentPage = data.currentPage;
@@ -52,24 +52,30 @@ export class ClientListComponent implements OnInit {
   }
 
   // Search functionality for clients
-  onSearch() {
+onSearch() {
     const query = this.searchQuery.trim().toLowerCase();
     if (query) {
-      this.filteredClint = this.clint.filter(clints =>
-        clints.clientName.toLowerCase().includes(query) ||
-        clints.phoneNumber?.includes(query) ||
-        clints.email?.toLowerCase().includes(query)
-      );
+      this.clientService.searchClients(query).subscribe({
+        next: (data) => {
+          this.filteredClients = data;  // Update filtered clients based on search results
+          this.updatePagination();
+          this.updateDisplayedAccounts();
+        },
+        error: (err) => {
+          console.error('Error searching clients:', err);
+        },
+      });
     } else {
-      this.filteredClint = [...this.clint];
+      this.filteredClients = [...this.clint];
+      this.updatePagination();
+      this.updateDisplayedAccounts();
     }
-    this.updatePagination();
-    this.updateDisplayedAccounts();
   }
+
 
   // Update pagination
   updatePagination() {
-    const pageCount = Math.ceil(this.filteredClint.length / this.accountsPerPage);
+    const pageCount = Math.ceil(this.filteredClients.length / this.accountsPerPage);
     this.pages = Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
@@ -77,7 +83,7 @@ export class ClientListComponent implements OnInit {
   updateDisplayedAccounts() {
     const start = (this.currentPage - 1) * this.accountsPerPage;
     const end = start + this.accountsPerPage;
-    this.displayedClints = this.filteredClint.slice(start, end);
+    this.displayedClints = this.filteredClients.slice(start, end);
   }
 
   // Go to specific page in pagination

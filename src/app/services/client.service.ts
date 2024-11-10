@@ -49,6 +49,6 @@ export class ClientService {
 
   // Search for clients by name, phone, or email
   searchClients(query: string): Observable<Client[]> {
-    return this.http.get<Client[]>(`${this.apiUrl}/search?q=${query}`);
+    return this.http.get<Client[]>(`${this.apiUrl}/clients/search?q=${query}`);
   }
 }
