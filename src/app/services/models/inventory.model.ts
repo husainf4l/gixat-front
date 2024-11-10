@@ -3,6 +3,8 @@ export interface Category {
     name: string;
     description?: string;
     parentCategoryId?: number;
+    parentCategory: Category
+    subcategories: Category
 }
 
 export interface Account {
@@ -28,15 +30,14 @@ export interface ContactInfo {
 }
 
 export interface Supplier {
-    id: number;
-    name: string;
-    contactInfo?: string; // e.g., phone or email
-    address?: string;     // Supplier's address if available
+    id: string;
+    supplierName: string;
+    chartAccountId?: string;
 }
 
 
 export interface InventoryItem {
-    id: number;
+    id: string;
     name: string;
     quantity: number;
     description: string;
@@ -44,7 +45,7 @@ export interface InventoryItem {
     unitPrice: number;
     cost: number;
     sellingPrice: number;
-    supplier: Supplier; // Updated to reference Supplier
+    supplierAccount: Supplier; // Updated to reference Supplier
     status: InventoryStatus;
     reorderLevel: number;
     lastRestocked?: Date;

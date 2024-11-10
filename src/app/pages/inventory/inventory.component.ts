@@ -1,95 +1,88 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Category, InventoryItem, InventoryStatus } from '../../services/models/inventory.model';
-import { InventoryService } from '../../services/inventory.service';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { InventoryService } from '../../services/inventory.service';
+import { InventoryItem } from '../../services/models/inventory.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-inventory',
+  standalone: true,
+  imports: [MatIconModule, MatMenuModule, FormsModule, RouterLink, CommonModule],
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink]
 })
 export class InventoryComponent implements OnInit {
   inventory: InventoryItem[] = [];
-  newItem: InventoryItem = this.initializeNewItem();
-  editItem: InventoryItem | null = null;
+  filteredInventory: InventoryItem[] = [];
+  displayedInventory: InventoryItem[] = [];
+  searchQuery = '';
+  currentPage = 1;
+  totalInventory = 0;
+  inventoryPerPage = 10;
+  pages: number[] = [];
+  totalPages = 1;
 
   constructor(private inventoryService: InventoryService) { }
 
   ngOnInit(): void {
-    this.loadInventory();
+    this.loadInventoryItems(this.currentPage); // Load inventory items initially
   }
 
-  private initializeNewItem(): InventoryItem {
-    return {
-      id: 0,
-      name: '',
-      quantity: 0,
-      sellingPrice: 0,
-      cost: 0,
-      description: '',
-      category: {} as Category,
-      unitPrice: 0,
-      supplier: {} as any,
-      status: InventoryStatus.IN_STOCK,
-      reorderLevel: 0,
-      lastRestocked: new Date(),
-      location: '',
-      barcode: '',
-      sku: '',
-      unitOfMeasure: '',
-      minOrderQuantity: 1,
-      batchNumber: ''
-    };
-  }
-
-  loadInventory(): void {
-    this.inventoryService.getAllItems().subscribe(items => this.inventory = items);
-  }
-
-  addItem(): void {
-    if (this.isValidItem(this.newItem)) {
-      this.inventoryService.createItem(this.newItem).subscribe(newItem => {
-        this.inventory.push(newItem);
-        this.resetNewItem();
-      });
-    }
-  }
-
-  deleteItem(id: number): void {
-    this.inventoryService.deleteItem(id).subscribe(() => {
-      this.inventory = this.inventory.filter(item => item.id !== id);
+  loadInventoryItems(page: number) {
+    this.inventoryService.searchInventory(this.searchQuery).subscribe({
+      next: (data) => {
+        this.inventory = data;  // Assuming API returns the inventory data
+        this.filteredInventory = [...this.inventory]; // Copy data to filtered inventory
+        this.totalInventory = this.filteredInventory.length;
+        this.totalPages = Math.ceil(this.totalInventory / this.inventoryPerPage);
+        this.updateDisplayedInventory();
+        this.updatePagination();
+      },
+      error: (err) => {
+        console.error('Error fetching inventory items:', err);
+      },
     });
   }
 
-  startEdit(item: InventoryItem): void {
-    this.editItem = { ...item };
+  // Search functionality for inventory items
+  onSearch() {
+    this.loadInventoryItems(this.currentPage); // Reload the inventory when search query changes
   }
 
-  updateItem(): void {
-    if (this.editItem) {
-      this.inventoryService.updateItem(this.editItem.id, this.editItem).subscribe(updatedItem => {
-        const index = this.inventory.findIndex(item => item.id === updatedItem.id);
-        if (index !== -1) {
-          this.inventory[index] = updatedItem;
-        }
-        this.editItem = null;
-      });
+  // Update pagination
+  updatePagination() {
+    const pageCount = Math.ceil(this.filteredInventory.length / this.inventoryPerPage);
+    this.pages = Array.from({ length: pageCount }, (_, i) => i + 1);
+  }
+
+  // Update displayed inventory for pagination
+  updateDisplayedInventory() {
+    const start = (this.currentPage - 1) * this.inventoryPerPage;
+    const end = start + this.inventoryPerPage;
+    this.displayedInventory = this.filteredInventory.slice(start, end);
+  }
+
+  // Go to specific page in pagination
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updateDisplayedInventory();
     }
   }
 
-  cancelEdit(): void {
-    this.editItem = null;
+  // Edit inventory item
+  editItem(itemId: string) {
+    // Logic to edit item
   }
 
-  private resetNewItem(): void {
-    this.newItem = this.initializeNewItem();
-  }
-
-  private isValidItem(item: InventoryItem): boolean {
-    return item.name.trim() !== '' && item.quantity > 0;
+  // Delete inventory item
+  deleteItem(itemId: string) {
+    if (confirm('Are you sure you want to delete this inventory item?')) {
+      // Logic to delete item
+      console.log(`Item ${itemId} deleted`);
+    }
   }
 }

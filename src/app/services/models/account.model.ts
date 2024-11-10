@@ -1,4 +1,5 @@
 import { Client } from "./client.model";
+import { Supplier } from "./inventory.model";
 
 // Enums for classification and types
 export enum AccountClassification {
@@ -175,15 +176,7 @@ export enum InventoryStatus {
   LOW_STOCK = "LOW_STOCK"
 }
 
-export interface Supplier {
-  id: string;
-  name: string;
-  contactInfo?: ContactInfo;
-  address?: string;
-}
-export interface ContactInfo {
 
-}
 
 export interface InventoryTransaction {
   id: string;

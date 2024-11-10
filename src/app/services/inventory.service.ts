@@ -16,64 +16,27 @@ export class InventoryService {
 
   // Inventory Item Endpoints
   getAllItems(): Observable<InventoryItem[]> {
-    return this.http.get<InventoryItem[]>(this.baseUrl);
+    return this.http.get<InventoryItem[]>(`${this.baseUrl}/items`);
   }
 
-  getItemById(id: number): Observable<InventoryItem> {
-    return this.http.get<InventoryItem>(`${this.baseUrl}/${id}`);
+  getItemById(id: string): Observable<InventoryItem> {
+    return this.http.get<InventoryItem>(`${this.baseUrl}/items/${id}`);
   }
 
-  createItem(item: InventoryItem): Observable<InventoryItem> {
-    return this.http.post<InventoryItem>(this.baseUrl, item);
+  searchInventory(query: string): Observable<InventoryItem[]> {
+    return this.http.get<InventoryItem[]>(`${environment.apiUrl}/inventory/search?query=${query}`);
   }
 
-  updateItem(id: number, item: InventoryItem): Observable<InventoryItem> {
-    return this.http.put<InventoryItem>(`${this.baseUrl}/${id}`, item);
+  createItem(item: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/items`, item);
   }
 
-  deleteItem(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  updateItem(id: string, item: InventoryItem): Observable<InventoryItem> {
+    return this.http.put<InventoryItem>(`${this.baseUrl}/items/${id}`, item);
   }
 
-  // Category Endpoints
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.baseUrl}/categories`);
+  deleteItem(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/items/${id}`);
   }
 
-  getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.baseUrl}/categories/${id}`);
-  }
-
-  createCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(`${this.baseUrl}/categories`, category);
-  }
-
-  updateCategory(id: number, category: Category): Observable<Category> {
-    return this.http.put<Category>(`${this.baseUrl}/categories/${id}`, category);
-  }
-
-  deleteCategory(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/categories/${id}`);
-  }
-
-  // Supplier Endpoints
-  getSuppliers(): Observable<Supplier[]> {
-    return this.http.get<Supplier[]>(`${this.baseUrl}/suppliers`);
-  }
-
-  getSupplierById(id: number): Observable<Supplier> {
-    return this.http.get<Supplier>(`${this.baseUrl}/suppliers/${id}`);
-  }
-
-  createSupplier(supplier: Supplier): Observable<Supplier> {
-    return this.http.post<Supplier>(`${this.baseUrl}/suppliers`, supplier);
-  }
-
-  updateSupplier(id: number, supplier: Supplier): Observable<Supplier> {
-    return this.http.put<Supplier>(`${this.baseUrl}/suppliers/${id}`, supplier);
-  }
-
-  deleteSupplier(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/suppliers/${id}`);
-  }
 }

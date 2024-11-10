@@ -7,10 +7,8 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ClientsComponent } from './pages/clients/clients.component';
 import { AddClientComponent } from './pages/clients/add-client/add-client.component';
 import { ClientListComponent } from './pages/clients/client-list/client-list.component';
-import { CarsComponent } from './pages/cars/cars.component';
 import { AddCarComponent } from './pages/cars/add-car/add-car.component';
 import { CarListComponent } from './pages/cars/car-list/car-list.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
@@ -34,12 +32,10 @@ const dashboardRoutes: Routes = [
         // canActivate: [AuthGuard],
         children: [
             { path: '', component: DashboardComponent },
-            { path: 'clients', component: ClientsComponent },
-            { path: 'clients/list', component: ClientListComponent },
+            { path: 'clients', component: ClientListComponent },
             { path: 'clients/add-client', component: AddClientComponent },
 
-            { path: 'cars', component: CarsComponent },
-            { path: 'cars/list', component: CarListComponent },
+            { path: 'cars', component: CarListComponent },
             { path: 'cars/add-car', component: AddCarComponent },
 
             { path: 'inventory', component: InventoryComponent },
