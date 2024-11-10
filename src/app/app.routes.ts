@@ -13,6 +13,7 @@ import { AddCarComponent } from './pages/cars/add-car/add-car.component';
 import { CarListComponent } from './pages/cars/car-list/car-list.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
 import { AddInventoryItemComponent } from './pages/inventory/add-inventory-item/add-inventory-item.component';
+import { QuickbooksComponent } from './pages/quickbooks/quickbooks.component';
 
 const mainRoutes: Routes = [
     {
@@ -44,6 +45,9 @@ const dashboardRoutes: Routes = [
 
 
             { path: 'reports', component: AddCarComponent },
+
+            { path: 'quickbooks', component: QuickbooksComponent },
+
 
 
         ]
