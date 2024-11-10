@@ -13,7 +13,7 @@ export class QuickbooksComponent {
   // Redirect to QuickBooks for OAuth authorization
   redirectToQuickBooks(): void {
     const clientId = 'AB7qTuCKfg2zoaWbC3CVMnWqKzVZE5WSjfC7j9VZeLhu31wVfo'; // Your actual client ID from QuickBooks Sandbox
-    const redirectUri = 'https://gixat.com/app'; // Your redirect URI, ensure it's added to QuickBooks app settings
+    const redirectUri = 'https://gixat.com/app/quickbooks'; // Your redirect URI, ensure it's added to QuickBooks app settings
     const scope = 'com.intuit.quickbooks.accounting'; // Scope for QuickBooks API access
     const state = 'PlaygroundAuth'; // Optional state parameter for CSRF protection
     const realmId = '9341453443035550'; // Your QuickBooks Sandbox company ID
