@@ -30,7 +30,7 @@ const dashboardRoutes: Routes = [
     {
         path: 'app',
         component: UserLayoutComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         children: [
             { path: '', component: DashboardComponent },
             { path: 'clients', component: ClientListComponent },

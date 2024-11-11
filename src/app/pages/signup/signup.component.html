@@ -1,1 +1,90 @@
-<p>signup works!</p>
+<!-- Main Container -->
+<div class="min-h-screen flex">
+    <!-- Left side with marketing content and subtle background color -->
+    <div
+        class="hidden lg:flex w-1/2 bg-gradient-to-br from-white to-gray-200 text-gray-800 p-12 items-center justify-center">
+        <div class="max-w-lg space-y-8">
+            <h1 class="text-5xl font-bold leading-snug text-gray-900">
+                Welcome to <span class="text-blue-600">Gixat</span>
+            </h1>
+            <p class="text-lg leading-relaxed text-gray-600">
+                Simplifying your workflow, optimizing your performance, and powering your journey.
+            </p>
+            <ul class="space-y-2">
+                <li class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Effortless management tools</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Data-driven insights</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Seamless experience</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right side with signup form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12">
+        <div class="w-full max-w-md space-y-8">
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">Create Your Account</h2>
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-6">
+                <!-- Name Field -->
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input id="name" formControlName="name" type="text" placeholder="Enter your full name"
+                        class="block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-300 ease-in-out">
+                </div>
+
+                <!-- Mobile Field -->
+                <div>
+                    <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                    <input id="mobile" formControlName="mobile" type="text" placeholder="Enter your mobile number"
+                        class="block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-300 ease-in-out">
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input id="password" formControlName="password" type="password" placeholder="Enter your password"
+                        class="block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-300 ease-in-out">
+                </div>
+
+                <!-- Role Field -->
+                <div>
+                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+                    <select id="role" formControlName="role"
+                        class="block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-300 ease-in-out">
+                        <option value="EMPLOYEE">Employee</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit"
+                        class="w-full py-3 px-6 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out">
+                        Sign Up
+                    </button>
+                </div>
+
+                <!-- Error Message -->
+                <div *ngIf="error" class="text-red-500 text-sm text-center">
+                    {{ error }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

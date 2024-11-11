@@ -3,6 +3,7 @@ import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HeaderComponent } from './header/header.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-layout',
@@ -17,5 +18,6 @@ export class UserLayoutComponent {
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
+
 
 }

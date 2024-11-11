@@ -19,7 +19,7 @@ export class NavbarComponent {
   onMenuItemClick() {
     this.menuItemClicked.emit();
   }
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['']); // Redirect to login page after logout
   }
