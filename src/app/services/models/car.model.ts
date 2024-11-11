@@ -12,9 +12,10 @@ export enum CarStatus {
 }
 
 export enum TransmissionType {
-  AUTOMATIC = "Automatic",
-  MANUAL = "Manual"
+  AUTOMATIC = "AUTOMATIC",
+  MANUAL = "MANUAL"
 }
+
 
 export interface Car {
   id: string;

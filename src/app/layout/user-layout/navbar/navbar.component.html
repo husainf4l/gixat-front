@@ -19,6 +19,10 @@
         class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
         <span class="material-icons">inventory</span> Inventory
     </a>
+    <a routerLink="companyInfo" (click)="onMenuItemClick()"
+        class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-blue-600 transition-all">
+        <span class="material-icons">inventory</span> Company Info
+    </a>
     <a (click)="logout()"
         class="flex items-center gap-2 px-3 py-2 rounded-md text-gray-300 hover:text-white hover:bg-red-600 transition-all cursor-pointer">
         <span class="material-icons">logout</span> Logout

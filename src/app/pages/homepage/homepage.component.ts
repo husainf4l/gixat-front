@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-homepage',
@@ -8,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {
+  isSticky = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isSticky = window.pageYOffset > 0;
+  }
 
 }

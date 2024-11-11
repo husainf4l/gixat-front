@@ -32,7 +32,7 @@ export class AddCarComponent implements OnInit {
 
   makes: Make[] = [];
   models: Model[] = [];
-  clients: Client[] = []; 
+  clients: Client[] = [];
   filteredModels: Model[] = [];
   filteredMakes: Make[] = [];
   filteredClients: Client[] = [];
@@ -97,7 +97,7 @@ export class AddCarComponent implements OnInit {
       makeId: '',
       modelId: '',
       year: 2020,
-      transmissionType: "Automatic",
+      transmissionType: "AUTOMATIC",
       notes: '',
       clientAccountId: 0
     };

@@ -7,3 +7,11 @@ export interface Address {
     streetAddress: string;
     AccountReceivable: Client[]; // One-to-many relationship with Client
 }
+
+export interface CompanyData {
+    id: string;
+    quickbooksRefreshToken: string;
+    quickbooksToken: string;
+    quickbooksTokenExpiry: string
+
+}

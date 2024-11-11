@@ -1,72 +1,87 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuickbooksService } from '../../services/quickbooks.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-quickbooks',
   templateUrl: './quickbooks.component.html',
   styleUrls: ['./quickbooks.component.css'],
+  imports: [CommonModule],
+  standalone: true
 })
 export class QuickbooksComponent implements OnInit {
+  code: string = '';
+  realmId: string = '';
+  companyInfo: any = null;
+  errorMessage: string = '';
+  loading: boolean = false;
+  token: string | null = "";
 
   constructor(
-    private router: Router,
+    private quickbooksService: QuickbooksService,
     private route: ActivatedRoute,
-    private quickbooksService: QuickbooksService // Inject QuickBooks service
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    // Check if the redirect URL contains the authorization code
+    // Step 1: Redirect user to QuickBooks for authentication if no code exists
+    if (!this.route.snapshot.queryParamMap.has('code')) {
+      this.redirectToQuickBooks();
+    }
+    this.token = localStorage.getItem('quickbooksAccessToken')
+
+    // Step 2: Get OAuth code and companyId from the query params
     this.route.queryParams.subscribe(params => {
-      const code = params['code'];  // The authorization code received from QuickBooks
-      const state = params['state'];  // The state parameter (for CSRF protection)
-      const realmId = params['realmId']; // The company (realm) ID from QuickBooks
+      this.code = params['code'] || '';
+      this.realmId = params['realmId'] || '';
 
-      if (code) {
-        // Send the code to your backend to exchange for an access token
-        this.quickbooksService.getOAuthToken(code).subscribe(
-          tokenData => {
-            console.log('code:', code);
-            console.log('state:', state);
-            console.log('realmId:', realmId);
-
-
-
-
-            console.log('OAuth token received:', tokenData);
-            // Store the token data securely (access token, refresh token)
-            // You can navigate the user to another page (e.g., dashboard) or handle the response
-          },
-          error => {
-            console.error('Error getting OAuth token:', error);
-          }
-        );
-      } else {
-        console.error('Authorization code not found!');
+      if (this.code && this.realmId) {
+        this.handleOAuthCallback();
       }
+    });
+    console.log(this.realmId, "        sdasad          ", this.code)
+  }
+
+  // Redirect to QuickBooks OAuth page for user authentication
+  redirectToQuickBooks(): void {
+    this.quickbooksService.getOAuthUrl().subscribe(response => {
+      window.location.href = response.url;  // Redirect the user to the OAuth URL
     });
   }
 
-  // Redirect to QuickBooks for OAuth authorization
-  redirectToQuickBooks(): void {
-    const clientId = 'AB7qTuCKfg2zoaWbC3CVMnWqKzVZE5WSjfC7j9VZeLhu31wVfo'; // Your actual client ID from QuickBooks Sandbox
-    const redirectUri = 'http://tawjihiai.com:4200/app/quickbooks'; // Your redirect URI, ensure it's added to QuickBooks app settings
-    const scope = 'com.intuit.quickbooks.accounting'; // Scope for QuickBooks API access
-    const state = 'PlaygroundAuth'; // Optional state parameter for CSRF protection
-    const realmId = '9341453443035550'; // Your QuickBooks Sandbox company ID
-    const locale = 'en-us'; // Locale for the user interface (optional)
+  // Handle the OAuth callback and exchange code for OAuth token
+  handleOAuthCallback(): void {
+    this.loading = true;
+    const companyId = localStorage.getItem('companyId') || "";
+    this.quickbooksService.handleOAuthCallback(this.code, this.realmId, companyId).subscribe(
+      response => {
+        const tokenData = response.tokenData;
+        localStorage.setItem('quickbooksAccessToken', tokenData.access_token);
+        localStorage.setItem('quickbooksRealmId', this.realmId);
 
-    // Correct URL structure with URL encoding
-    const authUrl = `https://appcenter.intuit.com/connect/oauth2/authorize?` +
-      `client_id=${clientId}&` +
-      `scope=${encodeURIComponent(scope)}&` +
-      `redirect_uri=${encodeURIComponent(redirectUri)}&` +
-      `response_type=code&` +
-      `state=${encodeURIComponent(state)}&` +
-      `realm_id=${realmId}&` +
-      `locale=${locale}`;
+        this.getCompanyInfo(tokenData.access_token);
+      },
+      error => {
+        this.loading = false;
+        this.errorMessage = 'Error fetching OAuth token: ' + error.message;
+      }
+    );
+  }
 
-    // Redirect the user to QuickBooks OAuth2 authorization page
-    window.location.href = authUrl;
+  // Fetch company information using the access token
+  getCompanyInfo(accessToken: string): void {
+    console.log('Startedaaaaaaaaaaaa');
+    this.loading = true;
+    this.quickbooksService.getCompanyInfo(accessToken, this.realmId).subscribe(
+      response => {
+        this.companyInfo = response.companyInfo;
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.errorMessage = 'Error fetching company info: ' + error.message;
+      }
+    );
   }
 }

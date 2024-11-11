@@ -46,6 +46,10 @@
                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                     <input id="name" formControlName="name" type="text" placeholder="Enter your full name"
                         class="block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-300 ease-in-out">
+                    <div *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+                        class="text-red-500 text-sm">
+                        {{ getErrorMessage('name') }}
+                    </div>
                 </div>
 
                 <!-- Mobile Field -->
@@ -53,6 +57,10 @@
                     <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile Number</label>
                     <input id="mobile" formControlName="mobile" type="text" placeholder="Enter your mobile number"
                         class="block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-300 ease-in-out">
+                    <div *ngIf="signupForm.get('mobile')?.invalid && signupForm.get('mobile')?.touched"
+                        class="text-red-500 text-sm">
+                        {{ getErrorMessage('mobile') }}
+                    </div>
                 </div>
 
                 <!-- Password Field -->
@@ -60,6 +68,10 @@
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input id="password" formControlName="password" type="password" placeholder="Enter your password"
                         class="block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-300 ease-in-out">
+                    <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+                        class="text-red-500 text-sm">
+                        {{ getErrorMessage('password') }}
+                    </div>
                 </div>
 
                 <!-- Role Field -->

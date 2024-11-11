@@ -4,9 +4,12 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../enviroments/environment';
+import { DashboardService } from './dashboard.service';
 
 interface AuthResponse {
     access_token: string;
+    user_id: string;
+    companyId: string;
 }
 
 @Injectable({
@@ -17,13 +20,15 @@ export class AuthService {
     private tokenSubject = new BehaviorSubject<string | null>(null);
     public token$ = this.tokenSubject.asObservable();
 
-    constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router, private dashboardService: DashboardService) { }
 
     // Login method to authenticate the user
     login(mobile: string, password: string): Observable<AuthResponse> {
         return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { mobile, password }).pipe(
             tap(response => {
                 localStorage.setItem('token', response.access_token);
+                localStorage.setItem('userId', response.user_id);
+                localStorage.setItem('companyId', response.companyId);
                 this.tokenSubject.next(response.access_token);
             }),
             catchError(this.handleError)
@@ -53,6 +58,9 @@ export class AuthService {
     // Logout method
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('companyId');
+        localStorage.removeItem('userId');
+
         this.tokenSubject.next(null);
         this.router.navigate(['/login']); // Redirect to login or another appropriate route
     }
@@ -62,8 +70,10 @@ export class AuthService {
         return this.http.post(`${this.apiUrl}/signup`, { name, mobile, password, role }).pipe(
             tap((response: any) => {
                 // After signup, automatically log the user in
-                const { access_token } = response;
+                const { access_token, user_id } = response;
                 localStorage.setItem('token', access_token);
+                localStorage.setItem('user_id', user_id);
+
                 this.tokenSubject.next(access_token);
 
                 // Redirect the user to the app or dashboard after successful signup and login

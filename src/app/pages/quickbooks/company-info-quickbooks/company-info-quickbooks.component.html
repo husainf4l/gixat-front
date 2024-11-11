@@ -1,0 +1,58 @@
+<div *ngIf="companyInfo" class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Company Information</h2>
+
+    <!-- Basic Details -->
+    <div class="mb-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Basic Details</h3>
+        <p class="text-gray-600"><span class="font-medium">Company Name:</span> {{ companyInfo.CompanyName }}</p>
+        <p class="text-gray-600"><span class="font-medium">Legal Name:</span> {{ companyInfo.LegalName }}</p>
+        <p class="text-gray-600"><span class="font-medium">Start Date:</span> {{ companyInfo.CompanyStartDate }}</p>
+        <p class="text-gray-600"><span class="font-medium">Fiscal Year Start:</span> {{ companyInfo.FiscalYearStartMonth
+            }}</p>
+        <p class="text-gray-600"><span class="font-medium">Country:</span> {{ companyInfo.Country }}</p>
+        <p class="text-gray-600"><span class="font-medium">Supported Languages:</span> {{ companyInfo.SupportedLanguages
+            }}</p>
+    </div>
+
+    <!-- Address -->
+    <div class="mb-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Address</h3>
+        <p class="text-gray-600"><span class="font-medium">Address Line:</span> {{ companyInfo.CompanyAddr.Line1 }}</p>
+        <p class="text-gray-600"><span class="font-medium">City:</span> {{ companyInfo.CompanyAddr.City }}</p>
+        <p class="text-gray-600"><span class="font-medium">State:</span> {{
+            companyInfo.CompanyAddr.CountrySubDivisionCode }}</p>
+        <p class="text-gray-600"><span class="font-medium">Postal Code:</span> {{ companyInfo.CompanyAddr.PostalCode }}
+        </p>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="mb-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Contact Information</h3>
+        <p class="text-gray-600"><span class="font-medium">Email:</span> {{ companyInfo.Email?.Address }}</p>
+        <p class="text-gray-600"><span class="font-medium">Customer Communication Email:</span> {{
+            companyInfo.CustomerCommunicationEmailAddr?.Address }}</p>
+    </div>
+
+    <!-- Subscription & Features -->
+    <div class="mb-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Subscription & Features</h3>
+        <ul class="list-disc list-inside text-gray-600">
+            <li *ngFor="let feature of companyInfo.NameValue">
+                <span class="font-medium">{{ feature.Name }}:</span> {{ feature.Value }}
+            </li>
+        </ul>
+    </div>
+
+    <!-- Additional Information -->
+    <div>
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Additional Information</h3>
+        <p class="text-gray-600"><span class="font-medium">Sync Token:</span> {{ companyInfo.SyncToken }}</p>
+        <p class="text-gray-600"><span class="font-medium">Created At:</span> {{ companyInfo.MetaData.CreateTime }}</p>
+        <p class="text-gray-600"><span class="font-medium">Last Updated At:</span> {{
+            companyInfo.MetaData.LastUpdatedTime }}</p>
+    </div>
+</div>
+
+<div *ngIf="!companyInfo" class="text-center py-6 text-gray-500">
+    <p>Loading company information...</p>
+</div>
