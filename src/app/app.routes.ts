@@ -37,26 +37,15 @@ const dashboardRoutes: Routes = [
             { path: '', component: DashboardComponent },
             { path: 'clients', component: ClientListComponent },
             { path: 'clients/add-client', component: AddClientComponent },
-
             { path: 'cars', component: CarListComponent },
             { path: 'cars/add-car', component: AddCarComponent },
-
             { path: 'inventory', component: InventoryComponent },
             { path: 'inventory/add', component: AddInventoryItemComponent },
-
-
-
             { path: 'reports', component: AddCarComponent },
-
             { path: 'quickbooks', component: QuickbooksComponent },
             { path: 'companyInfo', component: CompanyInfoQuickbooksComponent },
             { path: 'quick-invoices', component: InvoiceListComponent },
-
-
-
-
-
-
+            { path: 'kanban', loadChildren: () => import('./pages/kanban/kanban.module').then(m => m.KanbanModule) },
         ]
     },
 ];
