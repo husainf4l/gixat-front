@@ -15,7 +15,11 @@ export class BoardDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<BoardDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.data = data || {};
+    this.data.title = this.data.title || '';
+
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
