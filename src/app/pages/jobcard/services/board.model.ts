@@ -1,8 +1,10 @@
+import { JobCard } from "../../../services/models/car.model";
+
 export interface Board {
   id: string;
-  title?: string;
+  status?: string;
   priority?: number;
-  tasks: Task[];
+  jobCards: JobCard[];
 }
 
 export interface Task {

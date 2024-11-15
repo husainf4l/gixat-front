@@ -76,6 +76,7 @@ export interface Inspection {
 export interface JobCard {
   id: string;
   carId: string;
+  car: Car
   date: Date;
   description: string;
   status: JobStatus;

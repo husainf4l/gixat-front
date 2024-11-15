@@ -1,0 +1,21 @@
+<mat-card class=" bg-red-500">
+  <mat-card-header>
+    <!-- Slot for the handle -->
+    <ng-content></ng-content>
+    <mat-card-title>
+      {{ board.status?.toLowerCase() }}
+    </mat-card-title>
+    <div class=""></div>
+
+  </mat-card-header>
+
+  <div class="tasks">
+    <div class="m-2" *ngFor="let jobCard of board.jobCards; let i = index" (click)="openDialog(jobCard, i)">
+      <mat-card class="p-2" [ngClass]="jobCard.id"> {{ jobCard.car.make.name }} - {{ jobCard.car.model.name}}
+      </mat-card>
+    </div>
+
+
+
+  </div>
+</mat-card>

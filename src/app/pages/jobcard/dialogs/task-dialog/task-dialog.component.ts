@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BoardService } from '../../services/board.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -8,13 +7,14 @@ import { FormsModule } from '@angular/forms';
 import { DeleteButtonComponent } from "../../shared/delete-button/delete-button.component";
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import { BoardLiveService } from '../../services/boardLive.service';
 
 
 
 @Component({
   selector: 'app-task-dialog',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonToggleModule, FormsModule, DeleteButtonComponent,MatDialogModule,MatInputModule],
+  imports: [CommonModule, MatIconModule, MatButtonToggleModule, FormsModule, DeleteButtonComponent, MatDialogModule, MatInputModule],
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.css'
 })
@@ -24,9 +24,9 @@ export class TaskDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<TaskDialogComponent>,
-    private boardService: BoardService,
+    private boardService: BoardLiveService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
 
 

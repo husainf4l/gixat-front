@@ -45,7 +45,7 @@ const dashboardRoutes: Routes = [
             { path: 'quickbooks', component: QuickbooksComponent },
             { path: 'companyInfo', component: CompanyInfoQuickbooksComponent },
             { path: 'quick-invoices', component: InvoiceListComponent },
-            { path: 'kanban', loadChildren: () => import('./pages/kanban/kanban.module').then(m => m.KanbanModule) },
+            { path: 'kanban', loadChildren: () => import('./pages/jobcard/kanban.module').then(m => m.KanbanModule) },
         ]
     },
 ];

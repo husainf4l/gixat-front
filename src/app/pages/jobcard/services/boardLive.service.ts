@@ -9,7 +9,7 @@ import { environment } from '../../../enviroments/environment';
   providedIn: 'root'
 })
 
-export class BoardService implements OnDestroy {
+export class BoardLiveService implements OnDestroy {
   private socket!: ReturnType<typeof socketIo>;
   private subscriptions: Subscription[] = [];
 

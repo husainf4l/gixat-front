@@ -1,9 +1,9 @@
 <div class="p-3 sm:p-5 antialiased">
-  <div class="mx-auto max-w-screen">
+  <div class="mx-auto max-w-screen ">
 
     <!-- Header with Search and Actions -->
-    <div class="bg-white shadow-md sm:rounded-lg overflow-hidden">
-      <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 p-4">
+    <div class="bg-white shadow-md sm:rounded-lg overflow-hidden h-screen p-4">
+      <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 mb-2">
         <div class="w-full md:w-1/2">
           <div class="relative w-full">
             <input type="text" placeholder="Search Clients"
@@ -18,18 +18,16 @@
         </div>
       </div>
 
+      <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2">
 
-      <div cdkDropList cdkDropListOrientation="horizontal" class="boards" (cdkDropListDropped)="drop($event)">
-
-        <app-board cdkDrag *ngFor="let board of boards" [board]="board">
-          <mat-icon cdkDragHandle class="handle">drag_indicator</mat-icon>
+        <app-board *ngFor="let board of boards" [board]="board">
         </app-board>
 
-        <div class="board-button">
+        <!-- <div class="board-button">
           <button mat-raised-button cdkDragDisabled (click)="openBoardDialog()">
             New Board
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

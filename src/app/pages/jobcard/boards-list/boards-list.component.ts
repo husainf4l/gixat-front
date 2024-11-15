@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Board } from '../services/board.model';
-import { BoardService } from '../services/board.service';
+import { BoardLiveService } from '../services/boardLive.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
@@ -8,8 +8,7 @@ import { BoardDialogComponent } from '../dialogs/board-dialog/board-dialog.compo
 import { BoardComponent } from "../board/board.component";
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-
-
+import { BoardService } from '../services/board.service';
 
 @Component({
   selector: 'app-boards-list',
@@ -18,27 +17,35 @@ import { CommonModule } from '@angular/common';
   templateUrl: './boards-list.component.html',
   styleUrls: ['./boards-list.component.css'],
 })
-export class BoardsListComponent implements OnInit, OnDestroy {
+export class BoardsListComponent implements OnInit {
   boards: Board[] = [];
-  subscription: Subscription = new Subscription();
+  // subscription: Subscription = new Subscription();
   companyId: string = "";
 
-  constructor(private boardService: BoardService, private dialog: MatDialog) { }
+  constructor(private boardLiveService: BoardLiveService, private boardService: BoardService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-
-    this.companyId = localStorage.getItem('companyId')!
-    const boardsObservable = this.boardService.getBoards(this.companyId);
-    if (boardsObservable) {
-      this.subscription = boardsObservable.subscribe((boards: Board[]) => {
-        this.boards = boards;
-      });
-    }
+    this.companyId = localStorage.getItem('companyId')!;
+    this.loadBoards(this.companyId);
   }
+
+  loadBoards(companyId: string) {
+    this.boardService.getBoards(companyId).subscribe({
+      next: (data) => {
+        this.boards = data;
+        console.log('Filtered Boards:', this.boards);
+      },
+      error: (err) => {
+        console.error('Error fetching boards:', err);
+      },
+    });
+  }
+
+
 
   drop(event: CdkDragDrop<Board[]>): void {
     moveItemInArray(this.boards, event.previousIndex, event.currentIndex);
-    this.boardService.sortBoards(this.boards);
+    this.boardLiveService.sortBoards(this.boards);
   }
 
   openBoardDialog(): void {
@@ -48,7 +55,7 @@ export class BoardsListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.boardService.createBoard({
+        this.boardLiveService.createBoard({
           title: result,
           companyId: this.companyId
         }).subscribe({
@@ -63,7 +70,4 @@ export class BoardsListComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 }
