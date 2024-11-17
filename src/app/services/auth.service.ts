@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -20,8 +20,15 @@ export class AuthService {
     private tokenSubject = new BehaviorSubject<string | null>(null);
     public token$ = this.tokenSubject.asObservable();
 
-    constructor(private http: HttpClient, private router: Router, private dashboardService: DashboardService) { }
-
+    constructor(private http: HttpClient, private router: Router) { }
+   
+    public getHeaders(): HttpHeaders {
+        const token = localStorage.getItem('token');
+        return new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        });
+      }
+    
     // Login method to authenticate the user
     login(mobile: string, password: string): Observable<AuthResponse> {
         return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { mobile, password }).pipe(

@@ -1,10 +1,11 @@
 // src/app/services/client.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../enviroments/environment';
 import { Client } from './models/client.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,10 @@ import { Client } from './models/client.model';
 export class ClientService {
   private apiUrl = `${environment.apiUrl}/account-receivable`;  
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth:AuthService
+    
+  ) { }
+
 
   // Create a new client account (under Accounts Receivable)
   createClient(clientData: any): Observable<Client> {
@@ -20,7 +24,10 @@ export class ClientService {
   }
 
   findAllClientAccountsPaginated(page: number = 1, limit: number = 10): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/clients/limit?page=${page}&limit=${limit}`);
+    return this.http.get<any>(`${this.apiUrl}/clients/limit?page=${page}&limit=${limit}`,
+      { headers: this.auth.getHeaders() }
+
+    );
   }
   // Get all client accounts
   getAllClients(): Observable<Client[]> {
