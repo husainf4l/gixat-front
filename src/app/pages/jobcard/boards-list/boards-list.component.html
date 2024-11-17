@@ -1,34 +1,6 @@
-<div class="p-3 sm:p-5 antialiased">
-  <div class="mx-auto max-w-screen ">
+<div class="p-8 bg-gray-50 min-h-screen antialiased">
 
-    <!-- Header with Search and Actions -->
-    <div class="bg-white shadow-md sm:rounded-lg overflow-hidden h-screen p-4">
-      <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 mb-2">
-        <div class="w-full md:w-1/2">
-          <div class="relative w-full">
-            <input type="text" placeholder="Search Clients"
-              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full pl-10 p-2 focus:ring-primary-500" />
-          </div>
-        </div>
-
-        <div class="flex space-x-3">
-          <button (click)="openBoardDialog()" class="text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2">
-            Add Board
-          </button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2">
-
-        <app-board *ngFor="let board of boards" [board]="board">
-        </app-board>
-
-        <!-- <div class="board-button">
-          <button mat-raised-button cdkDragDisabled (click)="openBoardDialog()">
-            New Board
-          </button>
-        </div> -->
-      </div>
-    </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-6">
+    <app-board *ngFor="let board of boards" [board]="board"></app-board>
   </div>
 </div>

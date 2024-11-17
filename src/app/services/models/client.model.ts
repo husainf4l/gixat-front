@@ -13,7 +13,7 @@ export interface Client {
     chartOfAccountId: string;
     chartOfAccount?: ChartOfAccount; // Linking to the Chart of Accounts
     invoices: Invoice[];
-    cars: Car[]; // List of cars related to the client
+    Car: Car[]; // List of cars related to the client
     createdAt?: Date;
     updatedAt?: Date;
     notes: string;

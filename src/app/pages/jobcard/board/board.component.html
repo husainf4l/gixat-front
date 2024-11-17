@@ -1,21 +1,31 @@
-<mat-card class=" bg-red-500">
-  <mat-card-header>
-    <!-- Slot for the handle -->
-    <ng-content></ng-content>
-    <mat-card-title>
-      {{ board.status?.toLowerCase() }}
+<mat-card class="rounded-sm border border-gray-200 bg-white ">
+  <!-- Header -->
+  <mat-card-header class="flex items-center justify-between px-6 py-4 bg-gray-50 border-b border-gray-300 rounded-t-xl">
+    <mat-card-title class="text-lg font-semibold text-gray-800 tracking-wide">
+      {{ board.status }}
     </mat-card-title>
-    <div class=""></div>
-
+    <span class="text-sm text-gray-500">
+      {{ board.jobCards.length }} {{ board.jobCards.length === 1 ? 'Task' : 'Tasks' }}
+    </span>
   </mat-card-header>
 
-  <div class="tasks">
-    <div class="m-2" *ngFor="let jobCard of board.jobCards; let i = index" (click)="openDialog(jobCard, i)">
-      <mat-card class="p-2" [ngClass]="jobCard.id"> {{ jobCard.car.make.name }} - {{ jobCard.car.model.name}}
+  <!-- Tasks Section -->
+  <div class="p-2 space-y-4">
+    <div *ngFor="let jobCard of board.jobCards" class="task-card">
+      <mat-card class="p-2 border border-gray-200 rounded-sm shadow-md " style="background-color: #ffffff;">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center">
+          <div class="text-base font-semibold text-gray-900">
+            {{ jobCard.car.make.name }} - {{ jobCard.car.model.name }}
+          </div>
+          <div class="text-sm text-gray-600">
+            {{ jobCard.car.year }}
+          </div>
+        </div>
       </mat-card>
+
+
+
     </div>
-
-
-
   </div>
 </mat-card>

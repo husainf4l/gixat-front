@@ -31,7 +31,7 @@ export class AddClientComponent {
     },
     chartOfAccountId: '',
     invoices: [],
-    cars: [],
+    Car: [],
   };
 
   constructor(private clientService: ClientService, private router: Router) { }
@@ -45,11 +45,11 @@ export class AddClientComponent {
       email: this.client.email,
       notes: this.client.notes,
       address: {
-         
-          country: this.client.address.country,
-          city: this.client.address.city,
-          streetAddress: this.client.address.streetAddress
-        
+
+        country: this.client.address.country,
+        city: this.client.address.city,
+        streetAddress: this.client.address.streetAddress
+
       }
     };
     // Call the service to create an Account Receivable (Client)

@@ -2,7 +2,7 @@ import { JobCard } from "../../../services/models/car.model";
 
 export interface Board {
   id: string;
-  status?: string;
+  status: string;
   priority?: number;
   jobCards: JobCard[];
 }

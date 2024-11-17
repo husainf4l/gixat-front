@@ -16,4 +16,5 @@ export class BoardService {
         return this.http.get<Board[]>(`${this.jobCardsUrl}/boards/${companyId}`);
     }
 
+
 }

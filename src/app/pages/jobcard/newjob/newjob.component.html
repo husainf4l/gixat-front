@@ -1,0 +1,63 @@
+<div class="container mx-auto p-4 bg-white shadow rounded">
+    <h1 class="text-2xl font-bold mb-4">Create Job Card</h1>
+
+    <form [formGroup]="jobCardForm" (ngSubmit)="submitJobCard()">
+        <!-- Select Client -->
+        <div class="mb-4">
+            <label for="client" class="block text-sm font-medium text-gray-700">Select Client</label>
+            <select id="client" formControlName="clientId" (change)="onClientChange($event)"
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                <option value="" disabled>Select a client</option>
+                <option *ngFor="let client of clients" [value]="client.id">
+                    {{ client.clientName }}
+                </option>
+            </select>
+        </div>
+
+        <!-- Select Car -->
+        <div class="mb-4" *ngIf="Car.length > 0">
+            <label for="car" class="block text-sm font-medium text-gray-700">Select Car</label>
+            <select id="car" formControlName="carId" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                <option value="" disabled>Select a car</option>
+                <option *ngFor="let car of Car" [value]="car.id">
+                    {{ car.make.name }} - {{ car.model.name }} ({{ car.year }})
+                </option>
+            </select>
+        </div>
+
+        <!-- Job Description -->
+        <div class="mb-4">
+            <label for="description" class="block text-sm font-medium text-gray-700">Job Description</label>
+            <textarea id="description" formControlName="description" rows="3"
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+        </div>
+
+        <!-- Inventory Parts -->
+        <div class="mb-4">
+            <label for="parts" class="block text-sm font-medium text-gray-700">Parts</label>
+            <div *ngFor="let part of parts" class="flex items-center space-x-2">
+                <input type="checkbox" (change)="togglePartSelection(part)" />
+                <label>{{ part.name }} (Cost: {{ part.sellingPrice | currency }})</label>
+            </div>
+        </div>
+
+        <!-- Labor Cost -->
+        <div class="mb-4">
+            <label for="laborCost" class="block text-sm font-medium text-gray-700">Labor Cost</label>
+            <input type="number" id="laborCost" formControlName="laborCost" (input)="calculateTotalCost()"
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+        </div>
+
+        <!-- Total Cost -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Total Cost</label>
+            <input type="text" formControlName="totalCost"
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100" />
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700">
+            Submit Job Card
+        </button>
+    </form>
+</div>

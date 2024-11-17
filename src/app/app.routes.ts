@@ -16,6 +16,8 @@ import { AddInventoryItemComponent } from './pages/inventory/add-inventory-item/
 import { QuickbooksComponent } from './pages/quickbooks/quickbooks.component';
 import { CompanyInfoQuickbooksComponent } from './pages/quickbooks/company-info-quickbooks/company-info-quickbooks.component';
 import { InvoiceListComponent } from './pages/quickbooks/invoice-list/invoice-list.component';
+import { BoardsListComponent } from './pages/jobcard/boards-list/boards-list.component';
+import { NewjobComponent } from './pages/jobcard/newjob/newjob.component';
 
 const mainRoutes: Routes = [
     {
@@ -45,7 +47,10 @@ const dashboardRoutes: Routes = [
             { path: 'quickbooks', component: QuickbooksComponent },
             { path: 'companyInfo', component: CompanyInfoQuickbooksComponent },
             { path: 'quick-invoices', component: InvoiceListComponent },
-            { path: 'kanban', loadChildren: () => import('./pages/jobcard/kanban.module').then(m => m.KanbanModule) },
+            { path: 'jobcards/kanban', component: BoardsListComponent },
+            { path: 'jobcards/new', component: NewjobComponent },
+
+
         ]
     },
 ];
