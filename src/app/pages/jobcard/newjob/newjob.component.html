@@ -1,63 +1,92 @@
-<div class="container mx-auto p-4 bg-white shadow rounded">
-    <h1 class="text-2xl font-bold mb-4">Create Job Card</h1>
+<div class="container mx-auto p-6 bg-white shadow-md rounded-md">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">Create Job Card</h1>
 
     <form [formGroup]="jobCardForm" (ngSubmit)="submitJobCard()">
         <!-- Select Client -->
-        <div class="mb-4">
-            <label for="client" class="block text-sm font-medium text-gray-700">Select Client</label>
-            <select id="client" formControlName="clientId" (change)="onClientChange($event)"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                <option value="" disabled>Select a client</option>
-                <option *ngFor="let client of clients" [value]="client.id">
-                    {{ client.clientName }}
-                </option>
-            </select>
-        </div>
-
-        <!-- Select Car -->
-        <div class="mb-4" *ngIf="Car.length > 0">
-            <label for="car" class="block text-sm font-medium text-gray-700">Select Car</label>
-            <select id="car" formControlName="carId" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                <option value="" disabled>Select a car</option>
-                <option *ngFor="let car of Car" [value]="car.id">
-                    {{ car.make.name }} - {{ car.model.name }} ({{ car.year }})
-                </option>
-            </select>
-        </div>
-
-        <!-- Job Description -->
-        <div class="mb-4">
-            <label for="description" class="block text-sm font-medium text-gray-700">Job Description</label>
-            <textarea id="description" formControlName="description" rows="3"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
-        </div>
-
-        <!-- Inventory Parts -->
-        <div class="mb-4">
-            <label for="parts" class="block text-sm font-medium text-gray-700">Parts</label>
-            <div *ngFor="let part of parts" class="flex items-center space-x-2">
-                <input type="checkbox" (change)="togglePartSelection(part)" />
-                <label>{{ part.name }} (Cost: {{ part.sellingPrice | currency }})</label>
+        <div class="mb-6">
+            <label for="client" class="block text-sm font-medium text-gray-700 mb-2">Select or Add Client</label>
+            <div class="flex items-center space-x-4">
+                <select id="client" formControlName="clientId" class="w-full border-gray-300 rounded-md shadow-sm"
+                    (change)="onClientChange($event)">
+                    <option value="" disabled>Select a client</option>
+                    <option *ngFor="let client of clients" [value]="client.id">{{ client.clientName }}</option>
+                </select>
+                <button type="button" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+                    (click)="openAddClientModal()">
+                    Add Client
+                </button>
             </div>
         </div>
 
+        <!-- Select Car -->
+        <div class="mb-6">
+            <label for="car" class="block text-sm font-medium text-gray-700 mb-2">Select or Add Car</label>
+            <div class="flex items-center space-x-4">
+                <select id="car" formControlName="carId" class="w-full border-gray-300 rounded-md shadow-sm">
+                    <option value="" disabled>Select a car</option>
+                    <option *ngFor="let car of Car" [value]="car.id">
+                        {{ car.make.name }} - {{ car.model.name }} ({{ car.year }})
+                    </option>
+                </select>
+                <button type="button" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+                    (click)="openAddCarModal()">
+                    Add Car
+                </button>
+            </div>
+        </div>
+
+        <!-- Job Requests -->
+        <div class="mb-6">
+            <label for="jobRequests" class="block text-sm font-medium text-gray-700 mb-2">Job Requests</label>
+            <div *ngIf="jobRequests.length > 0; else noRequests" class="space-y-2">
+                <div *ngFor="let request of jobRequests; let i = index" class="flex items-center space-x-3">
+                    <input type="checkbox" [id]="'jobRequest-' + i" [value]="request"
+                        (change)="toggleJobRequest(request)" />
+                    <label [for]="'jobRequest-' + i" class="text-sm">
+                        {{ request.description }}
+                    </label>
+                </div>
+            </div>
+            <ng-template #noRequests>
+                <p class="text-sm text-gray-500">No job requests available.</p>
+            </ng-template>
+            <button type="button" class="mt-3 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                (click)="openAddJobRequestModal()">
+                Add Job Request
+            </button>
+        </div>
+
         <!-- Labor Cost -->
-        <div class="mb-4">
-            <label for="laborCost" class="block text-sm font-medium text-gray-700">Labor Cost</label>
-            <input type="number" id="laborCost" formControlName="laborCost" (input)="calculateTotalCost()"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+        <div class="mb-6">
+            <label for="laborCost" class="block text-sm font-medium text-gray-700 mb-2">Labor Cost</label>
+            <input type="number" id="laborCost" formControlName="laborCost"
+                class="w-full border-gray-300 rounded-md shadow-sm" (input)="calculateTotalCost()" />
+        </div>
+
+        <!-- Parts Selection -->
+        <div class="mb-6">
+            <label for="parts" class="block text-sm font-medium text-gray-700 mb-2">Select Parts</label>
+            <div *ngFor="let part of parts" class="flex items-center space-x-2">
+                <input type="checkbox" [id]="'part-' + part.id" [value]="part" (change)="togglePartSelection(part)" />
+                <label [for]="'part-' + part.id" class="text-sm">
+                    {{ part.name }} (Cost: {{ part.sellingPrice | currency }})
+                </label>
+            </div>
         </div>
 
         <!-- Total Cost -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Total Cost</label>
-            <input type="text" formControlName="totalCost"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100" />
+        <div class="mb-6">
+            <label for="totalCost" class="block text-sm font-medium text-gray-700 mb-2">Total Cost</label>
+            <input type="text" id="totalCost" formControlName="totalCost"
+                class="w-full border-gray-300 rounded-md shadow-sm bg-gray-100" readonly />
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700">
-            Submit Job Card
-        </button>
+        <div class="flex justify-end">
+            <button type="submit" [disabled]="!jobCardForm.valid"
+                class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">
+                Submit Job Card
+            </button>
+        </div>
     </form>
 </div>

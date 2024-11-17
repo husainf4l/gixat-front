@@ -10,7 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 export class JobCardService {
     private carUrl = `${environment.apiUrl}/job-cards`;
 
-    constructor(private http: HttpClient, private auth:AuthService) { }
+    constructor(private http: HttpClient, private auth: AuthService) { }
 
     getClients(): Observable<any[]> {
         return this.http.get<any[]>(`${this.carUrl}/clients`,
@@ -28,5 +28,8 @@ export class JobCardService {
     }
 
 
+    getJobRequests(): Observable<any> {
+        return this.http.get(`${this.carUrl}/getJobRequests`);
+    }
 
 }

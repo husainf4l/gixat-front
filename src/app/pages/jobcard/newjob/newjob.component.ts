@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { JobCardService } from '../services/jobcard-service';
 import { CommonModule } from '@angular/common';
 import { Client } from '../../../services/models/client.model';
-import { Car } from '../../../services/models/car.model';
+import { Car, JobRequest } from '../../../services/models/car.model';
+import { Part } from '../../../services/models/account.model';
 
 @Component({
   selector: 'app-newjob',
@@ -16,10 +17,12 @@ export class NewjobComponent implements OnInit {
   jobCardForm: FormGroup;
   clients: Client[] = []; // Array of clients fetched from API
   Car: Car[] = []; // Cars for the selected client
-  parts: any[] = []; // Array of inventory parts
-  selectedParts: any[] = []; // Parts selected for the job
+  jobRequests: JobRequest[] = []; // Job requests checklist
+  parts: Part[] = []; // Inventory parts
+  selectedParts: Part[] = []; //
 
   constructor(private fb: FormBuilder, private jobCardService: JobCardService) {
+    // Initialize the form
     this.jobCardForm = this.fb.group({
       clientId: ['', Validators.required],
       carId: ['', Validators.required],
@@ -33,12 +36,12 @@ export class NewjobComponent implements OnInit {
   ngOnInit(): void {
     this.fetchClients();
     this.fetchInventoryParts();
+    this.fetchJobRequests();
   }
 
-  // Fetch clients from the API
   fetchClients() {
     this.jobCardService.getClients().subscribe({
-      next: (data) => {
+      next: (data: Client[]) => {
         this.clients = data;
       },
       error: (err) => {
@@ -46,9 +49,11 @@ export class NewjobComponent implements OnInit {
       }
     });
   }
+
+  // Fetch inventory parts from the API
   fetchInventoryParts() {
     this.jobCardService.getInventoryParts().subscribe({
-      next: (data) => {
+      next: (data: Part[]) => {
         this.parts = data;
       },
       error: (err) => {
@@ -57,16 +62,30 @@ export class NewjobComponent implements OnInit {
     });
   }
 
+  // Fetch job requests from previous job cards
+  fetchJobRequests() {
+    this.jobCardService.getJobRequests().subscribe({
+      next: (data: JobRequest[]) => {
+        this.jobRequests = data;
+      },
+      error: (err) => {
+        console.error('Error fetching job requests:', err);
+      }
+    });
+  }
 
-  // Handle client selection to populate cars
+
+
   onClientChange(event: Event) {
     const clientId = (event.target as HTMLSelectElement).value;
     const selectedClient = this.clients.find(client => client.id === clientId) || null;
+
     this.Car = selectedClient ? selectedClient.Car : [];
     this.jobCardForm.patchValue({ carId: '' });
   }
 
-  togglePartSelection(part: any) {
+  // Handle part selection
+  togglePartSelection(part: Part) {
     const index = this.selectedParts.findIndex(p => p.id === part.id);
     if (index === -1) {
       this.selectedParts.push(part);
@@ -75,20 +94,18 @@ export class NewjobComponent implements OnInit {
     }
     this.calculateTotalCost();
   }
-
   calculateTotalCost() {
     const laborCost = this.jobCardForm.value.laborCost || 0;
     const partsCost = this.selectedParts.reduce((sum, part) => sum + part.sellingPrice, 0);
     this.jobCardForm.patchValue({ totalCost: laborCost + partsCost });
   }
 
-
   submitJobCard() {
     if (this.jobCardForm.valid) {
       const jobCardData = {
         ...this.jobCardForm.getRawValue(),
         parts: this.selectedParts.map(part => part.id), // Include selected part IDs
-        date: new Date().toISOString() // Include the current date as ISO string
+        date: new Date().toISOString() // Add current date
       };
 
       this.jobCardService.createJobCard(jobCardData).subscribe({
@@ -108,5 +125,29 @@ export class NewjobComponent implements OnInit {
     }
   }
 
+  // Open modal to add a new client (logic to be implemented)
+  openAddClientModal() {
+    console.log('Open Add Client Modal');
+    // Implement modal logic here
+  }
+
+  // Open modal to add a new car (logic to be implemented)
+  openAddCarModal() {
+    console.log('Open Add Car Modal');
+    // Implement modal logic here
+  }
+
+  // Open modal to add a new job request (logic to be implemented)
+  openAddJobRequestModal() {
+    console.log('Open Add Job Request Modal');
+    // Implement modal logic here
+  }
+
+  toggleJobRequest(jobRequest: any) {
+    console.log('Toggled Job Request:', jobRequest);
+    // Implement your logic to handle toggling job requests
+  }
 
 }
+
+

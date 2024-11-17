@@ -1,4 +1,4 @@
-import { JobStatus, Part, Technician } from "./account.model";
+import { Part, Technician } from "./account.model";
 import { Client } from "./client.model";
 
 export enum CarStatus {
@@ -79,9 +79,22 @@ export interface JobCard {
   car: Car
   date: Date;
   description: string;
-  status: JobStatus;
+  Board?: BoardStatus;
+  boardId?: String;
   cost?: number;
   partsUsed: Part[];
   assignedTechnician: Technician;
   journalEntryId?: string;
+  JobRequest: JobRequest[]
+}
+
+export interface JobRequest {
+  id: string,
+  description: string,
+  estimatedCost: number,
+  isChecked: boolean
+}
+export interface BoardStatus {
+  id: string,
+
 }

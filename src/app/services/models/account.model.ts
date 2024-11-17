@@ -50,12 +50,7 @@ export enum EntryType {
   CREDIT = "CREDIT"
 }
 
-export enum JobStatus {
-  PENDING = "PENDING",
-  IN_PROGRESS = "IN_PROGRESS",
-  COMPLETED = "COMPLETED",
-  CANCELLED = "CANCELLED"
-}
+
 
 export enum ExperienceLevel {
   JUNIOR = "Junior",
@@ -114,6 +109,7 @@ export interface Part {
   name: string;
   quantity: number;
   cost: number;
+  sellingPrice: number
 }
 
 export interface Technician {
