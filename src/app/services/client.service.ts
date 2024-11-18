@@ -11,10 +11,10 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = `${environment.apiUrl}/account-receivable`;  
+  private apiUrl = `${environment.apiUrl}/account-receivable`;
 
-  constructor(private http: HttpClient, private auth:AuthService
-    
+  constructor(private http: HttpClient, private auth: AuthService
+
   ) { }
 
 
@@ -31,7 +31,8 @@ export class ClientService {
   }
   // Get all client accounts
   getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(`${this.apiUrl}/clients`);
+    return this.http.get<Client[]>(`${this.apiUrl}/clients`, { headers: this.auth.getHeaders() }
+    );
   }
 
   // Get a client by ID

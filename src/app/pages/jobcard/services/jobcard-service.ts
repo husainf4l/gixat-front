@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../enviroments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { Client } from '../../../services/models/client.model';
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,11 @@ export class JobCardService {
             { headers: this.auth.getHeaders() }
         );
     }
+
+    addClient(client: { clientName: string; phoneNumber: string }) {
+        return this.http.post<Client>('/api/clients', client);
+    }
+
 
     getInventoryParts(): Observable<any> {
         return this.http.get(`${this.carUrl}/inventory`);

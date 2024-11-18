@@ -1,0 +1,32 @@
+<div class="sm:col-span-2">
+    <label for="client" class="block text-sm font-medium text-gray-900">Search Client</label>
+    <div class="mt-2">
+        <input type="text" id="client" name="client" [(ngModel)]="clientDisplayName"
+            (ngModelChange)="onClientInput($event)" [matAutocomplete]="autoClient" placeholder="Select client"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            [ngModelOptions]="{ standalone: true }" />
+        <mat-autocomplete #autoClient="matAutocomplete">
+            <mat-option *ngFor="let client of filteredClients" [value]="client.clientName"
+                (onSelectionChange)="onClientSelected(client)">
+                {{ client.clientName }}
+            </mat-option>
+        </mat-autocomplete>
+    </div>
+</div>
+
+<div class="sm:col-span-2" *ngIf="selectedClient">
+    <label for="car" class="block text-sm font-medium text-gray-900">Available Cars</label>
+    <div class="mt-2">
+        <input type="text" id="car" name="car" [(ngModel)]="carDisplayName" (ngModelChange)="onCarInput($event)"
+            [matAutocomplete]="autoCar" placeholder="Select car"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            [ngModelOptions]="{ standalone: true }" />
+        <mat-autocomplete #autoCar="matAutocomplete">
+            <mat-option *ngFor="let car of filteredCars"
+                [value]="car.make.name + ' ' + car.model.name + ' (' + car.year + ')'"
+                (onSelectionChange)="onCarSelected(car)">
+                {{ car.make.name }} {{ car.model.name }} ({{ car.year }})
+            </mat-option>
+        </mat-autocomplete>
+    </div>
+</div>
