@@ -1,11 +1,94 @@
-<div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+<div class="space-y-4 px-4 py-2">
+    <!-- Client and Car Selection -->
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+        <app-autocomplete-fields class="sm:col-span-full" (selectedClientChange)="onClientSelected($event)"
+            (selectedCarChange)="onCarSelected($event)">
+        </app-autocomplete-fields>
 
-    <app-autocomplete-fields (selectedClientChange)="onClientSelected($event)"
-        (selectedCarChange)="onCarSelected($event)"></app-autocomplete-fields>
+        <!-- Job Requests Section -->
+        <div class="bg-white border border-gray-200 rounded-md p-4 shadow-sm sm:col-span-8">
+            <div class="pb-2 border-b border-gray-300">
+                <p class="text-sm font-medium text-gray-800">Job Requests</p>
+            </div>
+
+            <!-- Job Requests List -->
+            <div class="space-y-3 mt-3">
+                <div *ngFor="let jobRequest of jobRequests; index as i"
+                    class="border border-gray-200 rounded-md p-3 bg-gray-50 shadow-sm hover:shadow transition">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="text-xs font-medium text-gray-700">
+                            Job Request #{{ i + 1 }}
+                        </p>
+                        <button class="text-xs text-red-500 hover:underline" (click)="removeJobRequest(i)">
+                            Remove
+                        </button>
+                    </div>
+
+                    <!-- Job Details -->
+                    <div class="grid grid-cols-1 sm:grid-cols-6 gap-3">
+                        <!-- Description -->
+                        <div class="sm:col-span-4">
+                            <p class="text-xs font-medium text-gray-600">
+                                Description
+                            </p>
+                            <input type="text" id="description-{{ i }}" [(ngModel)]="jobRequest.description"
+                                class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-xs" />
+                        </div>
+
+                        <!-- Estimated Cost -->
+                        <div class="sm:col-span-2">
+                            <p class="text-xs font-medium text-gray-600">
+                                Estimated Cost
+                            </p>
+                            <input type="number" id="estimatedCost-{{ i }}" [(ngModel)]="jobRequest.estimatedCost"
+                                class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-xs" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Add Job Request Button -->
+
+
+
+        </div>
+
+        <div class="p-4 shadow-sm sm:col-span-4">
+            <div class="relative">
+                <!-- Main Car Image -->
+                <img src="assets/images/carcheck.jpeg" class="rounded-md w-full" alt="Car Image" />
+
+                <!-- Camera Icon Centered Below -->
+
+
+                <!-- Car Image Catalog -->
+                <div class="mt-4 grid grid-cols-5 gap-2">
+                    <div *ngFor="let image of images" class="flex items-center justify-center">
+                        <img [src]="image.url"
+                            class="w-20 h-20 rounded-md object-cover border border-gray-200 shadow-sm hover:shadow-md transition"
+                            alt="Car Thumbnail" />
+                    </div>
+                </div>
+                <div class="flex justify-center mt-4">
+                    <mat-icon class="text-gray-600 cursor-pointer hover:text-indigo-600">photo_camera</mat-icon>
+                </div>
+            </div>
+        </div>
 
 
 
 
+        <div class="pt-4 flex justify-between sm:col-span-8">
+            <button class="px-4 py-2 text-sm bg-green-500 text-white rounded shadow hover:bg-green-600 transition"
+                (click)="submitJobRequests()">
+                Submit
+            </button>
+            <button class="px-3 py-1 text-sm bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition"
+                (click)="addJobRequest()">
+                + Add Job Request
+            </button>
 
-
+        </div>
+    </div>
 </div>

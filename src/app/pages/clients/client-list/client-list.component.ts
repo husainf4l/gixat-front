@@ -18,8 +18,8 @@ import { ClientService } from '../../../services/client.service';
 })
 export class ClientListComponent implements OnInit {
   clint: Client[] = [];
-  filteredClients:  Client[] = [];
-  displayedClints:  Client[] = [];
+  filteredClients: Client[] = [];
+  displayedClints: Client[] = [];
   searchQuery = '';
   currentPage = 1;
   totalAccounts = 0;
@@ -52,7 +52,7 @@ export class ClientListComponent implements OnInit {
   }
 
   // Search functionality for clients
-onSearch() {
+  onSearch() {
     const query = this.searchQuery.trim().toLowerCase();
     if (query) {
       this.clientService.searchClients(query).subscribe({

@@ -46,9 +46,9 @@ export class AddClientComponent {
       notes: this.client.notes,
       address: {
 
-        country: this.client.address.country,
-        city: this.client.address.city,
-        streetAddress: this.client.address.streetAddress
+        country: this.client.address!.country,
+        city: this.client.address!.city,
+        streetAddress: this.client.address!.streetAddress
 
       }
     };

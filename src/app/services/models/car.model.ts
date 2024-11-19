@@ -27,13 +27,13 @@ export interface Car {
   status: CarStatus;
   transmissionType: TransmissionType;
   clientAccountId: string;
-  clientAccount: Client; // Link to Client Account
-  make: Make; // Car Make
-  model: Model; // Car Model
+  clientAccount?: Client; // Link to Client Account
+  make?: Make; // Car Make
+  model?: Model; // Car Model
   notes?: string;
-  history: CarHistory[];
-  inspections: Inspection[];
-  jobCards: JobCard[];
+  history?: CarHistory[];
+  inspections?: Inspection[];
+  jobCards?: JobCard[];
 }
 
 
@@ -48,7 +48,7 @@ export interface Model {
   id: string;
   name: string;
   makeId: string;
-  make: Make;
+  make?: Make;
   cars: Car[];
 }
 

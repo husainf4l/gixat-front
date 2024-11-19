@@ -70,8 +70,8 @@ export class CarListComponent implements OnInit {
     const query = this.searchQuery.trim().toLowerCase();
     if (query) {
       this.filteredCars = this.cars.filter(car =>
-        car.make.name.toLowerCase().includes(query) ||
-        car.model.name.toLowerCase().includes(query) ||
+        car.make?.name.toLowerCase().includes(query) ||
+        car.model?.name.toLowerCase().includes(query) ||
         car.licenseNumber?.includes(query) ||
         car.vin?.includes(query)
       );

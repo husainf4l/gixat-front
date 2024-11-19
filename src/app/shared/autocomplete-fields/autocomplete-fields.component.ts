@@ -1,104 +1,125 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, model, OnInit, Output } from '@angular/core';
 import { Client } from '../../services/models/client.model';
-import { Car } from '../../services/models/car.model';
+import { Car, Make, Model, TransmissionType } from '../../services/models/car.model';
 import { ClientService } from '../../services/client.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddClientDialogComponent } from '../add-client-dialog/add-client-dialog.component';
 import { debounceTime, Subject } from 'rxjs';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatOption } from '@angular/material/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddCarDialogComponent } from '../add-car-dialog/add-car-dialog.component';
+import { CarStatus } from '../../services/models/account.model';
+import { CarService } from '../../services/car.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-autocomplete-fields',
   templateUrl: './autocomplete-fields.component.html',
   styleUrls: ['./autocomplete-fields.component.css'],
-  imports: [CommonModule, FormsModule, MatAutocompleteModule],
-  standalone: true
+  imports: [CommonModule, FormsModule, MatAutocompleteModule, MatDialogModule, MatOption],
+  standalone: true,
 })
 export class AutocompleteFieldsComponent implements OnInit {
   @Output() selectedClientChange = new EventEmitter<Client>(); // Emit selected client
   @Output() selectedCarChange = new EventEmitter<Car>(); // Emit selected car
 
-  clients: Client[] = []; // Clients fetched from the database
-  filteredClients: Client[] = []; // Filtered clients
-  filteredCars: Car[] = []; // Filtered cars
-  selectedClient: Client | null = null; // Currently selected client
-  clientDisplayName: string = ''; // Client search input
-  carDisplayName: string = ''; // Car search input
-  private filterClientsSubject = new Subject<string>(); // Subject for client filtering
-  private filterCarsSubject = new Subject<string>(); // Subject for car filtering
 
-  constructor(private clientService: ClientService) { }
+
+  carDisplayName = '';
+  clients: Client[] = [];
+  filteredClients: Client[] = [];
+  filteredCars: Car[] = [];
+
+  selectedClient: Client = {
+    id: '',
+    clientName: '',
+    phoneNumber: '',
+    Car: []
+  }
+
+
+  constructor(
+    private clientService: ClientService,  // Inject ClientService
+    private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.fetchClients();
+    this.clientService.getAllClients().subscribe(clients => this.clients = clients);
+  };
+  onClientSelected(client: Client) {
+    this.selectedClient = client
 
-    // Set up debounced filtering for clients
-    this.filterClientsSubject.pipe(debounceTime(300)).subscribe((value) => {
-      this.filterClients(value);
-    });
-
-    // Set up debounced filtering for cars
-    this.filterCarsSubject.pipe(debounceTime(300)).subscribe((value) => {
-      this.filterCars(value);
-    });
+    this.filteredCars = client.Car
+    this.selectedClientChange.emit(client);
   }
 
-  // Fetch clients from the backend
-  fetchClients() {
-    this.clientService.getAllClients().subscribe({
-      next: (data: Client[]) => {
-        this.clients = data;
-        this.filteredClients = data; // Initialize the filtered list
-      },
-      error: (err) => {
-        console.error('Error fetching clients:', err);
-        // Show a user-friendly error message if needed
-      },
-    });
-  }
-
-  // Filter clients based on input
-  onClientInput(value: string) {
-    this.filterClientsSubject.next(value); // Debounced filtering
-  }
-
-  // Filter clients logic
-  filterClients(value: string) {
-    const filterValue = value.toLowerCase();
-    this.filteredClients = this.clients.filter((client) =>
-      client.clientName.toLowerCase().includes(filterValue)
+  filterClients(searchValue: string) {
+    this.filteredClients = this.clients.filter(client =>
+      `${client.clientName} `.toLowerCase().includes(searchValue.toLowerCase()) || `${client.phoneNumber}`.includes(searchValue)
     );
   }
 
-  // Handle client selection
-  onClientSelected(client: Client) {
-    this.clientDisplayName = client.clientName;
-    this.selectedClient = client;
-    this.filteredCars = client.Car || []; // Populate cars for the selected client
-    this.selectedClientChange.emit(client); // Emit selected client to parent
+  filterCars(searchValue: string) {
+    this.filteredClients = this.clients.filter(client =>
+      `${client.clientName} `.toLowerCase().includes(searchValue.toLowerCase()) || `${client.phoneNumber}`.includes(searchValue)
+    );
   }
 
-  // Filter cars based on input
-  onCarInput(value: string) {
-    this.filterCarsSubject.next(value); // Debounced filtering
-  }
-
-  // Filter cars logic
-  filterCars(value: string) {
-    const filterValue = value.toLowerCase();
-    this.filteredCars = this.selectedClient?.Car.filter(
-      (car) =>
-        car.make.name.toLowerCase().includes(filterValue) ||
-        car.model.name.toLowerCase().includes(filterValue) ||
-        car.year.toString().includes(filterValue)
-    ) || [];
-  }
-
-  // Handle car selection
   onCarSelected(car: Car) {
-    this.carDisplayName = `${car.make.name} ${car.model.name} (${car.year})`;
-    this.selectedCarChange.emit(car); // Emit selected car to parent
+    this.carDisplayName = `${car.make?.name} ${car.model?.name} (${car.year})`;
+    this.selectedCarChange.emit(car);
   }
+
+  addNewClient() {
+    const dialogRef = this.dialog.open(AddClientDialogComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((newClient) => {
+      if (newClient) {
+        console.log('New client saved:', newClient);
+        this.clients.push(newClient);
+        this.filteredClients = this.clients;
+        this.onClientSelected(newClient);
+        this.selectedClientChange.emit(newClient);
+
+      }
+    });
+  }
+
+
+  addNewCar(): void {
+    if (this.selectedClient.id == "") {
+      console.error('Please select a client before adding a car.');
+      return;
+    }
+    const dialogRef = this.dialog.open(AddCarDialogComponent, {
+      width: '800px',
+      data: { client: this.selectedClient },
+
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('New car data from dialog:', result);
+        const newCar: any = {
+          id: result.id,
+          makeId: result.makeId,
+          modelId: result.modelId,
+          year: result.year,
+          model: result.model,
+          make: result.make
+        };
+        this.carDisplayName = `${newCar.make.name} ${newCar.model.name}`
+        this.selectedClient.Car.push(newCar);
+        this.selectedCarChange.emit(newCar);
+
+      } else {
+        console.log('Add car dialog was closed without data.');
+      }
+    });
+  }
+  outPut() { }
+
 }

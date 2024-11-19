@@ -29,7 +29,7 @@
           </div>
         </div>
 
-       
+
         <div class="sm:col-span-3">
           <label for="phone" class="block text-sm/6 font-medium text-gray-900">Phone number</label>
           <div class="mt-2">
@@ -54,7 +54,7 @@
         <div class="sm:col-span-1">
           <label for="country" class="block text-sm/6 font-medium text-gray-900">Country</label>
           <div class="mt-2">
-            <select id="country" name="country" autocomplete="off" [(ngModel)]="client.address.country"
+            <select id="country" name="country" autocomplete="off" [(ngModel)]="client.address!.country"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm/6">
               <option>UAE</option>
               <option>Jordan</option>
@@ -66,7 +66,7 @@
         <div class="sm:col-span-2">
           <label for="city" class="block text-sm/6 font-medium text-gray-900">City</label>
           <div class="mt-2">
-            <input type="text" name="city" id="city" [(ngModel)]="client.address.city" autocomplete="off"
+            <input type="text" name="city" id="city" [(ngModel)]="client.address!.city" autocomplete="off"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
           </div>
         </div>
@@ -74,7 +74,7 @@
         <div class="col-span-full">
           <label for="street-address" class="block text-sm/6 font-medium text-gray-900">Street address</label>
           <div class="mt-2">
-            <input type="text" name="street-address" [(ngModel)]="client.address.streetAddress" id="street-address"
+            <input type="text" name="street-address" [(ngModel)]="client.address!.streetAddress" id="street-address"
               autocomplete="off"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
           </div>

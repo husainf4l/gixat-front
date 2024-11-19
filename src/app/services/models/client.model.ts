@@ -9,12 +9,12 @@ export interface Client {
     taxId?: string;
     phoneNumber: string;
     email?: string;
-    address: Address;
-    chartOfAccountId: string;
+    address?: Address;
+    chartOfAccountId?: string;
     chartOfAccount?: ChartOfAccount; // Linking to the Chart of Accounts
-    invoices: Invoice[];
+    invoices?: Invoice[];
     Car: Car[]; // List of cars related to the client
     createdAt?: Date;
     updatedAt?: Date;
-    notes: string;
+    notes?: string;
 }

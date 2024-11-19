@@ -18,18 +18,17 @@ export class ClientService {
   ) { }
 
 
-  // Create a new client account (under Accounts Receivable)
   createClient(clientData: any): Observable<Client> {
-    return this.http.post<Client>(`${this.apiUrl}/create`, clientData);
+    return this.http.post<Client>(`${this.apiUrl}/create`, clientData, { headers: this.auth.getHeaders() }
+    );
   }
 
   findAllClientAccountsPaginated(page: number = 1, limit: number = 10): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/clients/limit?page=${page}&limit=${limit}`,
       { headers: this.auth.getHeaders() }
-
     );
   }
-  // Get all client accounts
+
   getAllClients(): Observable<Client[]> {
     return this.http.get<Client[]>(`${this.apiUrl}/clients`, { headers: this.auth.getHeaders() }
     );

@@ -1,0 +1,25 @@
+<div class="p-4">
+    <h2 class="text-xl font-bold mb-4">Add New Client</h2>
+    <div class="mb-4">
+        <label for="newClientName" class="block text-sm font-medium text-gray-900">Client Name</label>
+        <input type="text" id="newClientName" [(ngModel)]="newClientName" placeholder="Enter client name"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            [disabled]="loading" />
+    </div>
+    <div class="mb-4">
+        <label for="newClientPhone" class="block text-sm font-medium text-gray-900">Phone Number</label>
+        <input type="text" id="newClientPhone" [(ngModel)]="newClientPhone" placeholder="Enter phone number"
+            class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            [disabled]="loading" />
+    </div>
+    <div class="flex justify-end">
+        <button (click)="closeDialog()" class="px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500 mr-2"
+            [disabled]="loading">
+            Cancel
+        </button>
+        <button (click)="saveClient()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            [disabled]="loading">
+            {{ loading ? 'Saving...' : 'Save' }}
+        </button>
+    </div>
+</div>
