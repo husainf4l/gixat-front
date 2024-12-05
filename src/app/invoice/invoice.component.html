@@ -1,0 +1,78 @@
+<div class="flex justify-center bg-gray-100 py-10">
+    <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800">Invoice</h1>
+          <p class="text-sm text-gray-500">Ovovex Accounting System</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Invoice #: <span class="font-medium text-gray-800">INV-202401</span></p>
+          <p class="text-sm text-gray-500">Date: <span class="font-medium text-gray-800">{{ invoiceDate }}</span></p>
+        </div>
+      </div>
+  
+      <!-- Billing Information -->
+      <div class="flex justify-between mb-8">
+        <div>
+          <h2 class="text-sm font-bold text-gray-800">Billed To:</h2>
+          <p class="text-sm text-gray-600">{{ customerName }}</p>
+          <p class="text-sm text-gray-600">{{ customerAddress }}</p>
+          <p class="text-sm text-gray-600">{{ customerEmail }}</p>
+        </div>
+        <div>
+          <h2 class="text-sm font-bold text-gray-800">Billed From:</h2>
+          <p class="text-sm text-gray-600">Ovovex Accounting</p>
+          <p class="text-sm text-gray-600">123 Business St.</p>
+          <p class="text-sm text-gray-600">supportovovex.com</p>
+        </div>
+      </div>
+  
+      <!-- Invoice Items -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr>
+              <th class="border-b py-2 text-gray-600">Item</th>
+              <th class="border-b py-2 text-gray-600">Quantity</th>
+              <th class="border-b py-2 text-gray-600">Unit Price</th>
+              <th class="border-b py-2 text-gray-600">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of invoiceItems">
+              <td class="border-b py-2 text-gray-800">{{ item.name }}</td>
+              <td class="border-b py-2 text-gray-800">{{ item.quantity }}</td>
+              <td class="border-b py-2 text-gray-800">{{ item.unitPrice }}</td>
+              <td class="border-b py-2 text-gray-800">{{ item.total  }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Total Amount -->
+      <div class="flex justify-end mt-8">
+        <div class="w-1/2">
+          <div class="flex justify-between py-2">
+            <p class="text-sm text-gray-600">Subtotal:</p>
+            <p class="text-sm font-medium text-gray-800">{{ subtotal  }}</p>
+          </div>
+          <div class="flex justify-between py-2">
+            <p class="text-sm text-gray-600">Tax (10%):</p>
+            <p class="text-sm font-medium text-gray-800">{{ tax }}</p>
+          </div>
+          <div class="flex justify-between py-2 border-t border-gray-200 mt-2">
+            <p class="text-sm font-bold text-gray-800">Total:</p>
+            <p class="text-sm font-bold text-gray-800">{{ total   }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Footer -->
+      <div class="text-center mt-8">
+        <p class="text-sm text-gray-500">Thank you for your business!</p>
+        <p class="text-sm text-gray-500">For support, contact supportovovex.com</p>
+      </div>
+    </div>
+  </div>
+  

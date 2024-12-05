@@ -18,11 +18,12 @@ import { CompanyInfoQuickbooksComponent } from './pages/quickbooks/company-info-
 import { InvoiceListComponent } from './pages/quickbooks/invoice-list/invoice-list.component';
 import { BoardsListComponent } from './pages/jobcard/boards-list/boards-list.component';
 import { NewjobComponent } from './pages/jobcard/newjob/newjob.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 const mainRoutes: Routes = [
     {
         path: '', component: MainLayoutComponent, children: [
-            { path: '', component: HomepageComponent },
+            { path: '', component: InvoiceComponent },
             { path: 'login', component: LoginComponent },
             { path: 'signup', component: SignupComponent },
 
